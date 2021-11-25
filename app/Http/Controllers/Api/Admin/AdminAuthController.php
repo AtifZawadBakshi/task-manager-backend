@@ -91,7 +91,6 @@ class AdminAuthController extends Controller
 
     public function profile()
     {
-        return 'profile';
         $user = auth('admin-api')->user();
 
         return response()->json(['status' => true, 'user' => $user]);

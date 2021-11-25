@@ -18,6 +18,8 @@ use App\Http\Controllers\Api\Admin\AdminAuthController;
 |
 */
 
+/*** User ***/
+
 Route::group(['prefix' => 'user', 'namespace' => 'Api\User'], function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
@@ -42,6 +44,8 @@ Route::group(['prefix' => 'user', 'namespace' => 'Api\User'], function () {
     // Route::post('/coupon-check', 'OrderController@couponCheck');
 
 });
+
+//*** Admin ***/
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Api\Admin'], function () {
     Route::post('/register', [AdminAuthController::class, 'register']);
