@@ -94,5 +94,6 @@ class AdminAuthController extends Controller
         $user = auth('admin-api')->user();
 
         return response()->json(['status' => true, 'user' => $user]);
+        
     }
 }
