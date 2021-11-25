@@ -17,7 +17,7 @@ use App\Http\Controllers\Api\User\AuthController;
 |
 */
 
-Route::group(['prefix' => 'user', 'namespace' => 'API\User'], function () {
+Route::group(['prefix' => 'user', 'namespace' => 'Api\User'], function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
     // Route::post('/register', 'AuthController@register');
@@ -28,7 +28,7 @@ Route::group(['prefix' => 'user', 'namespace' => 'API\User'], function () {
 
     
 });
- Route::group(['prefix' => 'user', 'namespace' => 'API\User', 'middleware' => 'checkUser'], function () {
+ Route::group(['prefix' => 'user', 'namespace' => 'Api\User', 'middleware' => 'checkUser'], function () {
 
     Route::post('/logout', [AuthController::class, 'logout']);
     // Route::get('/profile', 'AuthController@profile');
