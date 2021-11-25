@@ -32,6 +32,7 @@ Route::group(['prefix' => 'user', 'namespace' => 'Api\User'], function () {
  Route::group(['prefix' => 'user', 'namespace' => 'Api\User', 'middleware' => 'checkUser'], function () {
 
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/profile', [AuthController::class, 'profile']);
     // Route::get('/profile', 'AuthController@profile');
     // Route::post('/profile/update','AuthController@profileUpdate');
     // Route::post('/logout', 'AuthController@logout');
@@ -48,6 +49,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Api\Admin'], function () {
 });
  Route::group(['prefix' => 'admin', 'namespace' => 'Api\Admin', 'middleware' => 'checkAdmin'], function () {
     Route::post('/logout', [AdminAuthController::class, 'logout']);
+    Route::post('/profile', [AdminAuthController::class, 'profile']);
 });
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

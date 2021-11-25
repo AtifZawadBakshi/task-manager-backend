@@ -88,4 +88,11 @@ class AdminAuthController extends Controller
         
         return response()->json(['status' => true, 'message' => 'Successfully logged out']);
     }
+
+    public function profile()
+    {
+        $user = auth('admin-api')->user();
+
+        return response()->json(['status' => true, 'user' => $user]);
+    }
 }

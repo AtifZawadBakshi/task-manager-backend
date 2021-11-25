@@ -101,14 +101,13 @@ class AuthController extends Controller
 
     public function profile()
     {
-        
-        // $user = auth('user-api')->user();
+        $user = auth('user-api')->user();
         // $user['temporary_points'] = RewordPoints::where(array('user_id' => $user->id, 'status' => 1))->where('permanent_date', '>', date("Y-m-d H:i:s"))->sum('credit');
         // $user['used_points'] = RewordPoints::where(array('user_id' => $user->id, 'status' => 1))->sum('debit');
         // $user['total_orders'] = $user->orders()->where('status','completed')->count();
         // $user['pending_orders'] = $user->orders()->where('status','pending')->count();
 
-        // return response()->json(['status' => true, 'user' => $user]);
+        return response()->json(['status' => true, 'user' => $user]);
     }
 
     /**
