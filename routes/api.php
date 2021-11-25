@@ -20,7 +20,7 @@ use App\Http\Controllers\Api\Admin\AdminAuthController;
 
 /*** User ***/
 
-Route::group(['prefix' => 'user', 'namespace' => 'Api\User'], function () {
+Route::group(['prefix' => 'v1/user', 'namespace' => 'Api\User'], function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
     // Route::post('/register', 'AuthController@register');
@@ -31,7 +31,7 @@ Route::group(['prefix' => 'user', 'namespace' => 'Api\User'], function () {
 
     
 });
- Route::group(['prefix' => 'user', 'namespace' => 'Api\User', 'middleware' => 'checkUser'], function () {
+ Route::group(['prefix' => 'v1/user', 'namespace' => 'Api\User', 'middleware' => 'checkUser'], function () {
 
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/profile', [AuthController::class, 'profile']);
@@ -47,11 +47,11 @@ Route::group(['prefix' => 'user', 'namespace' => 'Api\User'], function () {
 
 //*** Admin ***/
 
-Route::group(['prefix' => 'admin', 'namespace' => 'Api\Admin'], function () {
+Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin'], function () {
     Route::post('/register', [AdminAuthController::class, 'register']);
     Route::post('/login', [AdminAuthController::class, 'login']);
 });
- Route::group(['prefix' => 'admin', 'namespace' => 'Api\Admin', 'middleware' => 'checkAdmin'], function () {
+ Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin', 'middleware' => 'checkAdmin'], function () {
     Route::post('/logout', [AdminAuthController::class, 'logout']);
     Route::post('/profile', [AdminAuthController::class, 'profile']);
 });
