@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\CatController;
 use App\Http\Controllers\Api\User\AuthController;
+use App\Http\Controllers\Api\Admin\AdminAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +40,14 @@ Route::group(['prefix' => 'user', 'namespace' => 'Api\User'], function () {
     // Route::get('/order-details/{id}', 'OrderController@orderDetails');
     // Route::post('/coupon-check', 'OrderController@couponCheck');
 
+});
+
+Route::group(['prefix' => 'admin', 'namespace' => 'Api\Admin'], function () {
+    Route::post('/register', [AdminAuthController::class, 'register']);
+    Route::post('/login', [AdminAuthController::class, 'login']);
+});
+ Route::group(['prefix' => 'admin', 'namespace' => 'Api\Admin', 'middleware' => 'checkAdmin'], function () {
+    Route::post('/logout', [AdminAuthController::class, 'logout']);
 });
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
