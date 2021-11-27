@@ -3,6 +3,7 @@
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Api\CatController;
 use App\Http\Controllers\Api\User\AuthController;
 use App\Http\Controllers\Api\Admin\AdminAuthController;
@@ -54,6 +55,12 @@ Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin'], function () {
  Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin', 'middleware' => 'checkAdmin'], function () {
     Route::post('/logout', [AdminAuthController::class, 'logout']);
     Route::post('/profile', [AdminAuthController::class, 'profile']);
+    Route::get('/index', [HomeController::class, 'index']);
+    Route::post('/role', [HomeController::class, 'role']);
+    Route::post('/permission', [HomeController::class, 'permission']);
+    Route::post('/role_has_permission', [HomeController::class, 'role_has_permission']);
+    Route::post('/remove_role', [HomeController::class, 'remove_permission']);
+    Route::post('/revoke_Permission_To', [HomeController::class, 'revoke_Permission_To']);
 });
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
