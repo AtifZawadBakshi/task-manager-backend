@@ -83,10 +83,29 @@ class HomeController extends Controller
 
     public function revoke_Permission_To(Request $request)
     {
+        // $user = auth('user-api')->user();
         $role = Role::find($request->role_id);
         $permission = Permission::find($request->permission_id);
         $remove_permission = $role->revokePermissionTo($permission);
         return response()->json($remove_permission, 200);
+    }
+
+    public function model_Has_Permission(Request $request)
+    {
+        $user = auth('admin-api')->user();
+        // $role = Role::find($request->role_id);
+        $permission = Permission::find($request->permission_id);
+        $model_Has_Permission = $user->givePermissionTo($permission);
+        return response()->json($model_Has_Permission, 200);
+    }
+
+    public function model_Has_Role(Request $request)
+    {
+        $user = auth('admin-api')->user();
+        $role = Role::find($request->role_id);
+        // $permission = Permission::find($request->permission_id);
+        $model_Has_Role = $user->assignRole($role);
+        return response()->json($model_Has_Role, 200);
     }
 
 }
