@@ -57,10 +57,13 @@ Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin'], function () {
     Route::post('/profile', [AdminAuthController::class, 'profile']);
     Route::get('/index', [HomeController::class, 'index']);
     Route::post('/role', [HomeController::class, 'role']);
+    Route::post('/roleDelete', [HomeController::class, 'roleDelete']);
     Route::post('/permission', [HomeController::class, 'permission']);
+    Route::post('/permissionDelete', [HomeController::class, 'permissionDelete']);
     Route::post('/role_has_permission', [HomeController::class, 'role_has_permission']);
-    Route::post('/remove_role', [HomeController::class, 'remove_permission']);
+    Route::post('/remove_role', [HomeController::class, 'remove_role']);
     Route::post('/revoke_Permission_To', [HomeController::class, 'revoke_Permission_To']);
+    
 });
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
