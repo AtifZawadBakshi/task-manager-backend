@@ -55,6 +55,7 @@ Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin'], function () {
  Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin', 'middleware' => 'checkAdmin'], function () {
     Route::post('/logout', [AdminAuthController::class, 'logout']);
     Route::post('/profile', [AdminAuthController::class, 'profile']);
+    Route::post('/userList', [AdminAuthController::class, 'userList']);
     Route::get('/index', [HomeController::class, 'index']);
     Route::post('/role', [HomeController::class, 'role']);
     Route::post('/roleDelete', [HomeController::class, 'roleDelete']);

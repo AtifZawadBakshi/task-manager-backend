@@ -96,4 +96,9 @@ class AdminAuthController extends Controller
         return response()->json(['status' => true, 'user' => $user]);
 
     }
+
+    public function userList(){
+        $userList = Admin::all();
+        return response()->json(['status' => true, 'user' => $userList]);
+    }
 }
