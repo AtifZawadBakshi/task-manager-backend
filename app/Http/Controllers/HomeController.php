@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+// use db;
 use App\Models\User;
 use App\Models\Admin;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 // use Spatie\Permission\Contracts\Role;
-use Spatie\Permission\Traits\HasRole;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Auth;
+// use App\Http\Controllers\HasRole;
+use Spatie\Permission\Traits\HasRole;
 use Spatie\Permission\Models\Permission;
 
 class HomeController extends Controller
@@ -23,7 +26,8 @@ class HomeController extends Controller
     {
         $role = Role::all();
         $permission = Permission::all();
-        return response()->json(['Role' => $role, 'Permission' => $permission], 200);
+        $roleHasPermission = DB::table('role_has_permissions')->get();
+        return response()->json(['Role' => $role, 'Permission' => $permission, 'RoleHasPermission' => $roleHasPermission], 200);
     }
 
     public function role(Request $request)
@@ -84,5 +88,5 @@ class HomeController extends Controller
         $remove_permission = $role->revokePermissionTo($permission);
         return response()->json($remove_permission, 200);
     }
-    
+
 }
