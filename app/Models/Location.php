@@ -8,4 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class Location extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'division',
+        'district',
+        'area',
+        'thana',
+        'post_code',
+        'home_delivery',
+        'lockdown',
+        'base_charge',
+        'per_kg_inside_dhaka_charge',
+        'per_kg_outside_dhaka_charge',
+        'cod_charge_outside_of_dhaka',
+        'cod_charge_inside_of_dhaka',
+    ];
+
 }

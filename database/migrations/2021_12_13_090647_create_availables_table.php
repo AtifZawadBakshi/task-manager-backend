@@ -15,6 +15,8 @@ class CreateAvailablesTable extends Migration
     {
         Schema::create('availables', function (Blueprint $table) {
             $table->id();
+            $table->integer('warehouse_id');
+            $table->integer('location_id');
             $table->timestamps();
         });
     }

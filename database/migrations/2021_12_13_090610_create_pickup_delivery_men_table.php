@@ -15,6 +15,8 @@ class CreatePickupDeliveryMenTable extends Migration
     {
         Schema::create('pickup_delivery_men', function (Blueprint $table) {
             $table->id();
+            $table->integer('user_id');
+            $table->integer('warehouse_id');
             $table->timestamps();
         });
     }
