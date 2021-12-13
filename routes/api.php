@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Api\CatController;
 use App\Http\Controllers\Api\User\AuthController;
 use App\Http\Controllers\Api\Admin\AdminAuthController;
+use App\Http\Controllers\Api\Admin\WarehouseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,7 +67,8 @@ Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin'], function () {
     Route::post('/revoke_Permission_To', [HomeController::class, 'revoke_Permission_To']);
     Route::post('/model_Has_Permission', [HomeController::class, 'model_Has_Permission']);
     Route::post('/model_Has_Role', [HomeController::class, 'model_Has_Role']);
-
+    Route::post('/warehouse', [WarehouseController::class, 'index']);
+    
 });
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
