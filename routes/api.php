@@ -52,11 +52,12 @@ Route::group(['prefix' => 'v1/user', 'namespace' => 'Api\User'], function () {
 Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin'], function () {
     Route::post('/register', [AdminAuthController::class, 'register']);
     Route::post('/login', [AdminAuthController::class, 'login']);
+    // Route::get('/userList', [AdminAuthController::class, 'userList']);
 });
  Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin', 'middleware' => 'checkAdmin'], function () {
+    Route::get('/userList', [AdminAuthController::class, 'userList']);
     Route::post('/logout', [AdminAuthController::class, 'logout']);
     Route::post('/profile', [AdminAuthController::class, 'profile']);
-    Route::post('/userList', [AdminAuthController::class, 'userList']);
     Route::get('/index', [HomeController::class, 'index']);
     Route::post('/role', [HomeController::class, 'role']);
     Route::post('/roleDelete', [HomeController::class, 'roleDelete']);
@@ -67,7 +68,15 @@ Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin'], function () {
     Route::post('/revoke_Permission_To', [HomeController::class, 'revoke_Permission_To']);
     Route::post('/model_Has_Permission', [HomeController::class, 'model_Has_Permission']);
     Route::post('/model_Has_Role', [HomeController::class, 'model_Has_Role']);
-    Route::post('/warehouse', [WarehouseController::class, 'index']);
+
+    //***Warehouse Api***/
+
+    //Route::resource('warehouse', WarehouseController::class);
+    Route::resource('warehouse', 'WarehouseController');
+    Route::post('/warehouse-available','WarehouseController@available');
+    // Route::post('/warehouse', [WarehouseController::class, 'index']);
+    
+    
     
 });
 

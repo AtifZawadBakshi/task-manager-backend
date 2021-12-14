@@ -17,7 +17,7 @@ class AdminAuthController extends Controller
     // use GeneralTrait;
     public function __construct()
     {
-       $this->middleware('auth:admin-api', ['except' => ['login', 'register','logout']]);
+       $this->middleware('auth:admin-api', ['except' => ['login', 'register','logout','userList']]);
     }
 
     public function register(Request $request)

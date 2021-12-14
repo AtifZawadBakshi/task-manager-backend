@@ -4,9 +4,15 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Warehouse;
+use App\Models\Available;
 
 class WarehouseController extends Controller
 {
+    // public function __construct()
+    // {
+    //    $this->middleware('auth:admin-api', ['except' => ['index', 'show']]);
+    // }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +20,11 @@ class WarehouseController extends Controller
      */
     public function index()
     {
-        return 'warehouse';
+        $warehouse = Warehouse::all();
+        return response()->json([
+            'status' => true,
+            'data' => $warehouse
+        ]);
     }
 
     /**
@@ -25,7 +35,19 @@ class WarehouseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $warehouse = new Warehouse();
+        $warehouse->name = $request->name;
+        $warehouse->post_code = $request->post_code;
+        $warehouse->area = $request->area;
+        $warehouse->district = $request->district;
+        $warehouse->country = $request->country;
+        $warehouse->save();
+
+        return response()->json([
+            'status' => true,
+            'data' => $warehouse,
+            'message' => 'Stored Successfully!'
+        ]);
     }
 
     /**
@@ -36,7 +58,18 @@ class WarehouseController extends Controller
      */
     public function show($id)
     {
-        //
+        $warehouse = Warehouse::where('id', $id)->first();
+        if($warehouse == null){
+            return response()->json([
+                'status' => false,
+                'message' => 'Not Found!'
+            ]);
+        }else{
+            return response()->json([
+                'status' => true,
+                'data' => $warehouse,
+            ]);
+        }
     }
 
     /**
@@ -48,7 +81,26 @@ class WarehouseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $warehouse = Warehouse::where('id', $id)->first();
+        if($warehouse == null){
+            return response()->json([
+                'status' => false,
+                'message' => 'Not Found!'
+            ]);
+        }else{
+            $warehouse->name = $request->name;
+            $warehouse->post_code = $request->post_code;
+            $warehouse->area = $request->area;
+            $warehouse->district = $request->district;
+            $warehouse->country = $request->country;
+            $warehouse->update();
+            return response()->json([
+                'status' => true,
+                'data' => $warehouse,
+                'message' => 'Updated Successfully!'
+            ]);
+        }
+        
     }
 
     /**
@@ -59,6 +111,32 @@ class WarehouseController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $warehouse = Warehouse::where('id', $id)->first();
+        if($warehouse == null){
+            return response()->json([
+                'status' => false,
+                'message' => 'Not Found!'
+            ]);
+        }else{
+            $warehouse = Warehouse::where('id', $id)->delete();
+            return response()->json([
+                'status' => true,
+                'message' => 'Deleted Successfully!'
+            ]);
+        }
+        
+    }
+
+    public function available(Request $request)
+    {
+        $available = new Available();
+        $available->warehouse_id = $request->warehouse_id;
+        $available->location_id = $request->location_id;
+        $available->save();
+        return response()->json([
+            'status' => true,
+            'data' => $available,
+            'message' => 'Available added Successfully!'
+        ]);
     }
 }
