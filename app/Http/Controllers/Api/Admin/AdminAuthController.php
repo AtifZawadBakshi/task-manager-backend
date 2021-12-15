@@ -98,7 +98,7 @@ class AdminAuthController extends Controller
     }
 
     public function userList(){
-        $userList = Admin::all();
+        $userList = Admin::paginate(10);
         return response()->json(['status' => true, 'user' => $userList]);
     }
 }

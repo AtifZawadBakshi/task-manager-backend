@@ -74,6 +74,9 @@ Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin'], function () {
     //Route::resource('warehouse', WarehouseController::class);
     Route::resource('warehouse', 'WarehouseController');
     Route::post('/warehouse-available','WarehouseController@available');
+    Route::delete('/warehouse-available-denied/{id}','WarehouseController@available_denied');
+    Route::post('/warehouse-pickup-delivery-man','WarehouseController@pickup_delivery_man');
+    Route::delete('/warehouse-pickup-delivery-man-denied/{id}','WarehouseController@pickup_delivery_man_denied');
     // Route::post('/warehouse', [WarehouseController::class, 'index']);
     
     
