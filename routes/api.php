@@ -8,6 +8,10 @@ use App\Http\Controllers\Api\CatController;
 use App\Http\Controllers\Api\User\AuthController;
 use App\Http\Controllers\Api\Admin\AdminAuthController;
 use App\Http\Controllers\Api\Admin\WarehouseController;
+use App\Http\Controllers\Api\Admin\AvailableController;
+use App\Http\Controllers\Api\Admin\PickupDeliveryManController;
+use App\Http\Controllers\Api\Admin\LocationController;
+use App\Http\Controllers\Api\Admin\ParcelController;
 
 /*
 |--------------------------------------------------------------------------
@@ -72,13 +76,22 @@ Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin'], function () {
     //***Warehouse Api***/
 
     //Route::resource('warehouse', WarehouseController::class);
+    // Route::post('/warehouse', [WarehouseController::class, 'index']);
     Route::resource('warehouse', 'WarehouseController');
     Route::post('/warehouse-available','WarehouseController@available');
-    Route::delete('/warehouse-available-denied/{id}','WarehouseController@available_denied');
-    Route::post('/warehouse-pickup-delivery-man','WarehouseController@pickup_delivery_man');
-    Route::delete('/warehouse-pickup-delivery-man-denied/{id}','WarehouseController@pickup_delivery_man_denied');
-    // Route::post('/warehouse', [WarehouseController::class, 'index']);
-    
+
+    //***Available Api***/
+    Route::resource('available', 'AvailableController');
+    Route::post('/available-warehouse-location','AvailableController@available_warehouse_location');
+
+    //***PickupDeliveryMan Api***/
+    Route::resource('pickup-delivery-man', 'PickupDeliveryManController');
+
+    //***Location Api***/
+    Route::resource('location', 'LocationController');
+
+    //***Parcel Api***/
+    Route::resource('parcel', 'ParcelController');
     
     
 });

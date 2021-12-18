@@ -4,17 +4,12 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Warehouse;
 use App\Models\Available;
-use App\Models\PickupDeliveryMan;
 use App\Models\Location;
+use App\Models\Warehouse;
 
-class WarehouseController extends Controller
+class AvailableController extends Controller
 {
-    // public function __construct()
-    // {
-    //    $this->middleware('auth:admin-api', ['except' => ['index', 'show']]);
-    // }
     /**
      * Display a listing of the resource.
      *
@@ -22,10 +17,10 @@ class WarehouseController extends Controller
      */
     public function index()
     {
-        $warehouse = Warehouse::paginate(10);
+        $available = Available::paginate(10);
         return response()->json([
             'status' => true,
-            'data' => $warehouse
+            'data' => $available
         ]);
     }
 
@@ -37,18 +32,14 @@ class WarehouseController extends Controller
      */
     public function store(Request $request)
     {
-        $warehouse = new Warehouse();
-        $warehouse->name = $request->name;
-        $warehouse->post_code = $request->post_code;
-        $warehouse->area = $request->area;
-        $warehouse->district = $request->district;
-        $warehouse->country = $request->country;
-        $warehouse->save();
-
+        $available = new Available();
+        $available->warehouse_id = $request->warehouse_id;
+        $available->location_id = $request->location_id;
+        $available->save();
         return response()->json([
             'status' => true,
-            'data' => $warehouse,
-            'message' => 'Stored Successfully!'
+            'data' => $available,
+            'message' => 'Available added Successfully!'
         ]);
     }
 
@@ -60,8 +51,8 @@ class WarehouseController extends Controller
      */
     public function show($id)
     {
-        $warehouse = Warehouse::where('id', $id)->first();
-        if($warehouse == null){
+        $available = Available::where('id', $id)->first();
+        if($available == null){
             return response()->json([
                 'status' => false,
                 'message' => 'Not Found!'
@@ -69,7 +60,7 @@ class WarehouseController extends Controller
         }else{
             return response()->json([
                 'status' => true,
-                'data' => $warehouse,
+                'data' => $available,
             ]);
         }
     }
@@ -83,26 +74,22 @@ class WarehouseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $warehouse = Warehouse::where('id', $id)->first();
-        if($warehouse == null){
+        $available = Available::where('id', $id)->first();
+        if($available == null){
             return response()->json([
                 'status' => false,
                 'message' => 'Not Found!'
             ]);
         }else{
-            $warehouse->name = $request->name;
-            $warehouse->post_code = $request->post_code;
-            $warehouse->area = $request->area;
-            $warehouse->district = $request->district;
-            $warehouse->country = $request->country;
-            $warehouse->update();
+            $available->warehouse_id = $request->warehouse_id;
+            $available->location_id = $request->location_id;
+            $available->update();
             return response()->json([
                 'status' => true,
-                'data' => $warehouse,
+                'data' => $available,
                 'message' => 'Updated Successfully!'
             ]);
         }
-        
     }
 
     /**
@@ -113,38 +100,36 @@ class WarehouseController extends Controller
      */
     public function destroy($id)
     {
-        $warehouse = Warehouse::where('id', $id)->first();
-        if($warehouse == null){
+        $available = Available::where('id', $id)->first();
+        if($available == null){
             return response()->json([
                 'status' => false,
                 'message' => 'Not Found!'
             ]);
         }else{
-            $warehouse = Warehouse::where('id', $id)->delete();
+            $available = Available::where('id', $id)->delete();
             return response()->json([
                 'status' => true,
-                'message' => 'Deleted Successfully!'
+                'message' => 'Denied Successfully!'
             ]);
         }
-        
     }
 
-    public function available(Request $request)
+    public function available_warehouse_location(Request $request)
     {
-        $available = Available::with('warehouse','location')->where('warehouse_id', $request->warehouse_id)->where('location_id', $request->location_id)->first();
-        if($available == NULL){
+        $available_warehouse_location = Available::with('warehouse','location')->where('warehouse_id', $request->warehouse_id)->where('location_id', $request->location_id)->first();
+        if($available_warehouse_location == NULL){
             return response()->json([
                 'status' => true,
                 'message' => 'Available warehouse Not Found!'
             ]);
         }else{
-            $available = Available::with('warehouse','location')->where('warehouse_id', $request->warehouse_id)->where('location_id', $request->location_id)->get();
+            // $available_warehouse_location = Available::with('warehouse','location')->where('warehouse_id', $request->warehouse_id)->where('location_id', $request->location_id)->get();
             return response()->json([
                 'status' => true,
-                'data' => $available,
+                'data' => $available_warehouse_location,
                 'message' => 'Available warehouse Found Successfully!'
             ]);
         }
     }
-    
 }
