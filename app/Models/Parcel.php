@@ -26,4 +26,20 @@ class Parcel extends Model
 
     protected $guarded = [];
 
+    public function location(){
+        return $this->belongsTo(Location::class);
+    }
+
+    public function user(){
+        return $this->belongsTo(Admin::class);
+    }
+
+    public function available(){
+        return $this->belongsTo(Available::class);
+    }
+
+    public function product(){
+        return $this->belongsTo(Product::class);
+    }
+
 }

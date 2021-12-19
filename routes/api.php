@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\Admin\AvailableController;
 use App\Http\Controllers\Api\Admin\PickupDeliveryManController;
 use App\Http\Controllers\Api\Admin\LocationController;
 use App\Http\Controllers\Api\Admin\ParcelController;
+use App\Http\Controllers\Api\Admin\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,11 +75,11 @@ Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin'], function () {
     Route::post('/model_Has_Role', [HomeController::class, 'model_Has_Role']);
 
     //***Warehouse Api***/
-
     //Route::resource('warehouse', WarehouseController::class);
     // Route::post('/warehouse', [WarehouseController::class, 'index']);
     Route::resource('warehouse', 'WarehouseController');
     Route::post('/warehouse-available','WarehouseController@available');
+    // Route::post('/warehouse-info','WarehouseController@warehouse_info');
 
     //***Available Api***/
     Route::resource('available', 'AvailableController');
@@ -92,7 +93,10 @@ Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin'], function () {
 
     //***Parcel Api***/
     Route::resource('parcel', 'ParcelController');
-    
+    Route::post('location-info', 'ParcelController@parcel_info');
+
+    //***Product Api***/
+    Route::resource('product', 'ProductController');
     
 });
 

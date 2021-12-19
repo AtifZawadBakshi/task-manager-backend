@@ -129,6 +129,15 @@ class WarehouseController extends Controller
         
     }
 
+    // public function warehouse_info(){
+    //     $warehouse_info = Warehouse::with('pickup_delivery_man','available')->first();
+    //     return response()->json([
+    //         'status' => true,
+    //         'data' => $warehouse_info,
+    //         'message' => 'warehouse Info Found Successfully!'
+    //     ]);
+    // }
+
     public function available(Request $request)
     {
         $available = Available::with('warehouse','location')->where('warehouse_id', $request->warehouse_id)->where('location_id', $request->location_id)->first();

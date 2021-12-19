@@ -132,4 +132,5 @@ class LocationController extends Controller
             ]);
         }
     }
+
 }

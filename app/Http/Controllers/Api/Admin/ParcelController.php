@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Parcel;
+use App\Models\Location;
+use App\Models\Available;
 
 class ParcelController extends Controller
 {
@@ -47,7 +49,7 @@ class ParcelController extends Controller
         return response()->json([
             'status' => true,
             'data' => $parcel,
-            'message' => 'Location stored Successfully!'
+            'message' => 'Parcel stored Successfully!'
         ]);
     }
 
@@ -131,5 +133,15 @@ class ParcelController extends Controller
                 'message' => 'Denied Successfully!'
             ]);
         }
+    }
+
+    public function parcel_info(Request $request){
+        // return 'location_parcel';
+        $location_parcel = Parcel::with('user', 'location', 'available', 'product')->where('user_id', $request->user_id)->first();
+        return response()->json([
+            'status' => true,
+            'data' => $location_parcel,
+            'message' => 'Found Location Successfully!'
+        ]);
     }
 }
