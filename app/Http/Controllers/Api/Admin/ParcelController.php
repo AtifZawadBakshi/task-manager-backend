@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Api\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Parcel;
-use App\Models\Location;
-use App\Models\Available;
+// use App\Models\Location;
+// use App\Models\Available;
+// use App\Models\Merchant;
 
 class ParcelController extends Controller
 {
@@ -137,7 +138,7 @@ class ParcelController extends Controller
 
     public function parcel_info(Request $request){
         // return 'location_parcel';
-        $location_parcel = Parcel::with('user', 'location', 'available', 'product')->where('user_id', $request->user_id)->first();
+        $location_parcel = Parcel::with('merchant', 'user', 'location', 'available', 'product')->where('user_id', $request->user_id)->first();
         return response()->json([
             'status' => true,
             'data' => $location_parcel,

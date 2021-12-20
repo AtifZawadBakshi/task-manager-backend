@@ -1,10 +1,10 @@
 <?php
 
-use App\Models\Category;
+// use App\Models\Category;
+// use App\Http\Controllers\Api\CatController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Api\CatController;
 use App\Http\Controllers\Api\User\AuthController;
 use App\Http\Controllers\Api\Admin\AdminAuthController;
 use App\Http\Controllers\Api\Admin\WarehouseController;
@@ -13,6 +13,8 @@ use App\Http\Controllers\Api\Admin\PickupDeliveryManController;
 use App\Http\Controllers\Api\Admin\LocationController;
 use App\Http\Controllers\Api\Admin\ParcelController;
 use App\Http\Controllers\Api\Admin\ProductController;
+use App\Http\Controllers\Api\Admin\MerchantController;
+use App\Http\Controllers\Api\Admin\MerchantUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,9 +62,11 @@ Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin'], function () {
     // Route::get('/userList', [AdminAuthController::class, 'userList']);
 });
  Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin', 'middleware' => 'checkAdmin'], function () {
+    //***Admin***//
     Route::get('/userList', [AdminAuthController::class, 'userList']);
     Route::post('/logout', [AdminAuthController::class, 'logout']);
     Route::post('/profile', [AdminAuthController::class, 'profile']);
+    //***Spatie Role***//
     Route::get('/index', [HomeController::class, 'index']);
     Route::post('/role', [HomeController::class, 'role']);
     Route::post('/roleDelete', [HomeController::class, 'roleDelete']);
@@ -74,29 +78,36 @@ Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin'], function () {
     Route::post('/model_Has_Permission', [HomeController::class, 'model_Has_Permission']);
     Route::post('/model_Has_Role', [HomeController::class, 'model_Has_Role']);
 
-    //***Warehouse Api***/
+    //***Warehouse Api***//
     //Route::resource('warehouse', WarehouseController::class);
     // Route::post('/warehouse', [WarehouseController::class, 'index']);
     Route::resource('warehouse', 'WarehouseController');
     Route::post('/warehouse-available','WarehouseController@available');
     // Route::post('/warehouse-info','WarehouseController@warehouse_info');
 
-    //***Available Api***/
+    //***Available Api***//
     Route::resource('available', 'AvailableController');
     Route::post('/available-warehouse-location','AvailableController@available_warehouse_location');
 
-    //***PickupDeliveryMan Api***/
+    //***PickupDeliveryMan Api***//
     Route::resource('pickup-delivery-man', 'PickupDeliveryManController');
 
-    //***Location Api***/
+    //***Location Api***//
     Route::resource('location', 'LocationController');
 
-    //***Parcel Api***/
+    //***Parcel Api***//
     Route::resource('parcel', 'ParcelController');
     Route::post('location-info', 'ParcelController@parcel_info');
 
-    //***Product Api***/
+    //***Product Api***//
     Route::resource('product', 'ProductController');
+
+    //***Merchant Api***//
+    Route::resource('merchant', 'MerchantController');
+
+    //***MerchantUser Api***//
+    Route::resource('merchant-user', 'MerchantUserController');
+    Route::post('merchant-user-info', 'MerchantUserController@merchant_user_info');
     
 });
 
