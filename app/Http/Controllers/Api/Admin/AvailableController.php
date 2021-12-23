@@ -17,11 +17,8 @@ class AvailableController extends Controller
      */
     public function index()
     {
-        $available = Available::paginate(10);
-        return response()->json([
-            'status' => true,
-            'data' => $available
-        ]);
+        $availables = Available::paginate(10);
+        return response()->json($availables);
     }
 
     /**

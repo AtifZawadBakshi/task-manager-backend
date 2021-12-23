@@ -22,11 +22,8 @@ class WarehouseController extends Controller
      */
     public function index()
     {
-        $warehouse = Warehouse::paginate(10);
-        return response()->json([
-            'status' => true,
-            'data' => $warehouse
-        ]);
+        $warehouses = Warehouse::paginate(10);
+        return response()->json($warehouses);
     }
 
     /**

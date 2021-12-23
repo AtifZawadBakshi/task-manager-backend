@@ -15,11 +15,8 @@ class LocationController extends Controller
      */
     public function index()
     {
-        $location = Location::paginate(10);
-        return response()->json([
-            'status' => true,
-            'data' => $location
-        ]);
+        $locations = Location::paginate(10);
+        return response()->json($locations);
     }
 
     /**

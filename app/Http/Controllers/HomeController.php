@@ -22,7 +22,7 @@ class HomeController extends Controller
     //    $this->middleware('auth:web', ['except' => ['store']]);
     // }
 
-    public function index()
+    public function permission()
     {
         $role = Role::all();
         $permission = Permission::all();
@@ -45,7 +45,7 @@ class HomeController extends Controller
         return response()->json($roleDelete, 201);
     }
 
-    public function permission(Request $request)
+    public function permissionCreate(Request $request)
     {
         $permission = Permission::create([
             'name' => $request->name,

@@ -18,11 +18,8 @@ class ParcelController extends Controller
      */
     public function index()
     {
-        $parcel = Parcel::paginate(10);
-        return response()->json([
-            'status' => true,
-            'data' => $parcel
-        ]);
+        $parcels = Parcel::paginate(10);
+        return response()->json($parcels);
     }
 
     /**

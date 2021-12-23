@@ -15,11 +15,8 @@ class PickupDeliveryManController extends Controller
      */
     public function index()
     {
-        $pickupDeliveryMan = PickupDeliveryMan::paginate(10);
-        return response()->json([
-            'status' => true,
-            'data' => $pickupDeliveryMan
-        ]);
+        $pickupDeliveryMans = PickupDeliveryMan::paginate(10);
+        return response()->json($pickupDeliveryMans);
     }
 
     /**

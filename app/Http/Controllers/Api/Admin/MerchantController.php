@@ -16,11 +16,8 @@ class MerchantController extends Controller
     public function index()
     {
         // return 'index';
-        $merchant = Merchant::paginate(10);
-        return response()->json([
-            'status' => true,
-            'data' => $merchant
-        ]);
+        $merchants = Merchant::paginate(10);
+        return response()->json($merchants);
     }
 
     /**
