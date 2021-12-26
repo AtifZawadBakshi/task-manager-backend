@@ -70,7 +70,7 @@ Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin', 'middleware' =
     Route::get('/permission', [HomeController::class, 'permission']);
     Route::post('/role', [HomeController::class, 'role']);
     Route::post('/roleDelete', [HomeController::class, 'roleDelete']);
-    Route::post('/permissionCreate', [HomeController::class, 'permissionCreate']);
+    Route::post('/permission-store', [HomeController::class, 'permissionCreate']);
     Route::post('/permissionDelete', [HomeController::class, 'permissionDelete']);
     Route::post('/role_has_permission', [HomeController::class, 'role_has_permission']);
     Route::post('/remove_role', [HomeController::class, 'remove_role']);
