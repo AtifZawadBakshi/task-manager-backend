@@ -24,10 +24,9 @@ class HomeController extends Controller
 
     public function permission()
     {
-        $role = Role::all();
-        $permission = Permission::all();
-        $roleHasPermission = DB::table('role_has_permissions')->get();
-        return response()->json(['Role' => $role, 'Permission' => $permission, 'RoleHasPermission' => $roleHasPermission], 200);
+     
+        $permissions = Permission::all();
+        return response()->json($permissions);
     }
 
     public function role(Request $request)
