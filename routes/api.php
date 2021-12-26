@@ -61,7 +61,7 @@ Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin'], function () {
     Route::post('/login', [AdminAuthController::class, 'login']);
     // Route::get('/userList', [AdminAuthController::class, 'userList']);
 });
- Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin', 'middleware' => 'checkAdmin'], function () {
+Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin', 'middleware' => 'checkAdmin'], function () {
     //***Admin***//
     Route::get('/userList', [AdminAuthController::class, 'userList']);
     Route::post('/logout', [AdminAuthController::class, 'logout']);
