@@ -64,10 +64,9 @@ class WarehouseController extends Controller
                 'message' => 'Not Found!'
             ]);
         }else{
-            return response()->json([
-                'status' => true,
-                'data' => $warehouse,
-            ]);
+            return response()->json(
+                $warehouse,
+            );
         }
     }
 
