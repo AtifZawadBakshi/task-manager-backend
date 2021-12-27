@@ -63,10 +63,9 @@ class LocationController extends Controller
                 'message' => 'Not Found!'
             ]);
         }else{
-            return response()->json([
-                'status' => true,
-                'data' => $location,
-            ]);
+            return response()->json(
+                $location,
+            );
         }
     }
 
