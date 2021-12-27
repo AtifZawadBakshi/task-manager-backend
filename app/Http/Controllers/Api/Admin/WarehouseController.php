@@ -22,7 +22,7 @@ class WarehouseController extends Controller
      */
     public function index()
     {
-        $warehouses = Warehouse::paginate(10);
+        $warehouses = Warehouse::get();
         return response()->json($warehouses);
     }
 

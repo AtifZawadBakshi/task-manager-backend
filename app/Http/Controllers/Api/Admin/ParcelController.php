@@ -30,12 +30,15 @@ class ParcelController extends Controller
      */
     public function store(Request $request)
     {
+        // return 'store';
         $parcel = new Parcel();
-        $parcel->user_id = $request->user_id;
+        $parcel->merchant_id = $request->merchant_id;
         $parcel->available_id = $request->available_id ;
+        $parcel->pickup_location_id = $request->pickup_location_id ;
+        $parcel->delivery_location_id = $request->delivery_location_id ;
+        $parcel->pickup_warehouse_id = $request->pickup_warehouse_id ;
+        $parcel->delivery_warehouse_id = $request->delivery_warehouse_id ;
         $parcel->order_no  = $request->order_no ;
-        $parcel->product_id = $request->product_id ;
-        $parcel->location_id = $request->location_id;
         $parcel->customer_name = $request->customer_name ;
         $parcel->customer_number = $request->customer_number;
         $parcel->customer_email = $request->customer_email ;
@@ -66,10 +69,9 @@ class ParcelController extends Controller
                 'message' => 'Not Found!'
             ]);
         }else{
-            return response()->json([
-                'status' => true,
-                'data' => $parcel,
-            ]);
+            return response()->json(
+                $parcel
+            );
         }
     }
 
@@ -89,11 +91,13 @@ class ParcelController extends Controller
                 'message' => 'Not Found!'
             ]);
         }else{
-            $parcel->user_id = $request->user_id;
+            $parcel->merchant_id = $request->merchant_id;
             $parcel->available_id = $request->available_id ;
+            $parcel->pickup_location_id = $request->pickup_location_id ;
+            $parcel->delivery_location_id = $request->delivery_location_id ;
+            $parcel->pickup_warehouse_id = $request->pickup_warehouse_id ;
+            $parcel->delivery_warehouse_id = $request->delivery_warehouse_id ;
             $parcel->order_no  = $request->order_no ;
-            $parcel->product_id = $request->product_id ;
-            $parcel->location_id = $request->location_id;
             $parcel->customer_name = $request->customer_name ;
             $parcel->customer_number = $request->customer_number;
             $parcel->customer_email = $request->customer_email ;
