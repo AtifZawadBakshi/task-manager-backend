@@ -151,5 +151,22 @@ class WarehouseController extends Controller
             ]);
         }
     }
-    
+
+    public function warehouse_search($name) 
+    {
+        $reservedSymbols = ['-', '+', '<', '>', '@', '(', ')', '~'];
+        $searchTerm = str_replace($reservedSymbols, ' ', $name);
+
+        $searchValues = preg_split('/\s+/', $searchTerm, -1, PREG_SPLIT_NO_EMPTY);
+
+        $warehouse_search = Warehouse::where(function ($q) use ($searchValues) {
+            foreach ($searchValues as $value) {
+                $q->Where('name', 'like', "%{$value}%");
+            }
+        })->get();
+        return response()->json(
+            $warehouse_search
+        );
+    }
+
 }

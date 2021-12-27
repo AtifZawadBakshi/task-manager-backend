@@ -83,6 +83,7 @@ Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin', 'middleware' =
     // Route::post('/warehouse', [WarehouseController::class, 'index']);
     Route::resource('warehouse', 'WarehouseController');
     Route::post('/warehouse-available','WarehouseController@available');
+    Route::get('/warehouse-search/{name}','WarehouseController@warehouse_search');
     // Route::post('/warehouse-info','WarehouseController@warehouse_info');
 
     //***Available Api***//
