@@ -139,7 +139,7 @@ class ParcelController extends Controller
 
     public function parcel_info(Request $request){
         // return 'location_parcel';
-        $location_parcel = Parcel::with('merchant', 'user', 'location', 'available', 'product')->where('user_id', $request->user_id)->first();
+        $location_parcel = Parcel::with('merchant', 'available', 'pickup_location', 'delivery_location', 'pickup_warehouse', 'delivery_warehouse')->where('merchant_id', $request->merchant_id)->first();
         return response()->json([
             'status' => true,
             'data' => $location_parcel,
