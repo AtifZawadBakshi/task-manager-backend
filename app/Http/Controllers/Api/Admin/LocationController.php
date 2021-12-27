@@ -129,4 +129,21 @@ class LocationController extends Controller
         }
     }
 
+    public function locationSearch($name) 
+    {
+        $reservedSymbols = ['-', '+', '<', '>', '@', '(', ')', '~'];
+        $searchTerm = str_replace($reservedSymbols, ' ', $name);
+
+        $searchValues = preg_split('/\s+/', $searchTerm, -1, PREG_SPLIT_NO_EMPTY);
+
+        $warehouse_search = Location::where(function ($q) use ($searchValues) {
+            foreach ($searchValues as $value) {
+                $q->Where('area', 'like', "%{$value}%");
+            }
+        })->get();
+        return response()->json(
+            $warehouse_search
+        );
+    }
+
 }

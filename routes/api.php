@@ -83,7 +83,7 @@ Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin', 'middleware' =
     // Route::post('/warehouse', [WarehouseController::class, 'index']);
     Route::resource('warehouse', 'WarehouseController');
     Route::post('/warehouse-available','WarehouseController@available');
-    Route::get('/warehouse-search/{name}','WarehouseController@warehouse_search');
+    Route::get('/warehouse-search/{name}','WarehouseController@warehouseSearch');
     // Route::post('/warehouse-info','WarehouseController@warehouse_info');
 
     //***Available Api***//
@@ -95,6 +95,7 @@ Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin', 'middleware' =
 
     //***Location Api***//
     Route::resource('location', 'LocationController');
+    Route::get('/location-search/{area}','LocationController@locationSearch');
 
     //***Parcel Api***//
     Route::resource('parcel', 'ParcelController');

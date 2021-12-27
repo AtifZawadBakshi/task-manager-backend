@@ -152,7 +152,7 @@ class WarehouseController extends Controller
         }
     }
 
-    public function warehouse_search($name) 
+    public function warehouseSearch($name) 
     {
         $reservedSymbols = ['-', '+', '<', '>', '@', '(', ')', '~'];
         $searchTerm = str_replace($reservedSymbols, ' ', $name);
@@ -168,5 +168,5 @@ class WarehouseController extends Controller
             $warehouse_search
         );
     }
-
+    
 }
