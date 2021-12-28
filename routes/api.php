@@ -108,6 +108,7 @@ Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin', 'middleware' =
 
     //***Merchant Api***//
     Route::resource('merchant', 'MerchantController');
+    Route::get('/merchant-search/{searchMerchant}','MerchantController@merchantSearch');
 
     //***MerchantUser Api***//
     Route::resource('merchant-user', 'MerchantUserController');

@@ -144,4 +144,25 @@ class MerchantController extends Controller
             ]);
         }
     }
+
+    public function merchantSearch($searchMerchant) 
+    {
+        // return 'ok';
+        $reservedSymbols = ['-', '+', '<', '>', '@', '(', ')', '~'];
+        $searchTerm = str_replace($reservedSymbols, ' ', $searchMerchant);
+
+        $searchValues = preg_split('/\s+/', $searchTerm, -1, PREG_SPLIT_NO_EMPTY);
+
+        $merchantSearch = Merchant::where(function ($q) use ($searchValues) {
+            foreach ($searchValues as $value) {
+                $q->orWhere('merchant_name', 'like', "%{$value}%");
+                $q->orWhere('merchant_number', 'like', "%{$value}%");
+                $q->orWhere('merchant_email', 'like', "%{$value}%");
+                $q->orWhere('merchant_mobile', 'like', "%{$value}%");
+            }
+        })->get();
+        return response()->json(
+            $merchantSearch
+        );
+    }
 }
