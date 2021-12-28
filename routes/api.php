@@ -68,9 +68,11 @@ Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin', 'middleware' =
     Route::post('/profile', [AdminAuthController::class, 'profile']);
     //***Spatie Role***//
     Route::get('/permission', [HomeController::class, 'permission']);
+    Route::post('/permission-store', [HomeController::class, 'permissionCreate']);
+    Route::get('/permission-edit/{id}', [HomeController::class, 'permissionEdit']);
+    Route::put('/permission-update', [HomeController::class, 'permissionUpdate']);
     Route::post('/role', [HomeController::class, 'role']);
     Route::post('/roleDelete', [HomeController::class, 'roleDelete']);
-    Route::post('/permission-store', [HomeController::class, 'permissionCreate']);
     Route::post('/permissionDelete', [HomeController::class, 'permissionDelete']);
     Route::post('/role_has_permission', [HomeController::class, 'role_has_permission']);
     Route::post('/remove_role', [HomeController::class, 'remove_role']);

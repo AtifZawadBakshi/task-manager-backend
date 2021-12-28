@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 // use App\Http\Controllers\HasRole;
 use Spatie\Permission\Traits\HasRole;
 use Spatie\Permission\Models\Permission;
+use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
 {
@@ -45,11 +46,49 @@ class HomeController extends Controller
 
     public function permissionCreate(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|unique:permissions',
+            'guard_name' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $data['status'] = false;
+            $data['error'] = $validator->errors();
+            return response()->json($data, 422);
+        }
+
         $permission = Permission::create([
             'name' => $request->name,
             'guard_name' => $request->guard_name,
         ]);
         return response()->json($permission, 201);
+    }
+
+    public function permissionEdit($id)
+    {
+        $permission = Permission::where('id', $id)->select('id','name','guard_name')->first();
+        return response()->json($permission);
+    }
+
+    public function permissionUpdate(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|unique:permissions',
+            'guard_name' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $data['status'] = false;
+            $data['error'] = $validator->errors();
+            return response()->json($data, 422);
+        }
+
+        $permission = Permission::where('id', $request->id)->first();
+        $permission = $permission->update([
+            'name' => $request->name,
+            'guard_name' => $request->guard_name,
+        ]);
+        return response()->json($permission);
     }
 
     public function permissionDelete(Request $request)
