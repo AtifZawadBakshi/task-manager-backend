@@ -73,7 +73,7 @@ class HomeController extends Controller
     public function permissionUpdate(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|unique:permissions',
+            'name' => 'required',
             'guard_name' => 'required',
         ]);
 

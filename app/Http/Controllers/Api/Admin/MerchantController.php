@@ -145,22 +145,27 @@ class MerchantController extends Controller
         }
     }
 
-    public function merchantSearch($searchMerchant) 
+    public function merchantSearch(Request $request) 
     {
-        // return 'ok';
-        $reservedSymbols = ['-', '+', '<', '>', '@', '(', ')', '~'];
-        $searchTerm = str_replace($reservedSymbols, ' ', $searchMerchant);
+        // return $request;
+        // $reservedSymbols = ['-', '+', '<', '>', '@', '(', ')', '~', '&', '?', '='];
+        // $searchTerm = str_replace($reservedSymbols, ' ', $request->merchant_name);
 
-        $searchValues = preg_split('/\s+/', $searchTerm, -1, PREG_SPLIT_NO_EMPTY);
+        // $searchValues = preg_split('/\s+/', $searchTerm, -1, PREG_SPLIT_NO_EMPTY);
 
-        $merchantSearch = Merchant::where(function ($q) use ($searchValues) {
-            foreach ($searchValues as $value) {
-                $q->orWhere('merchant_name', 'like', "%{$value}%");
-                $q->orWhere('merchant_number', 'like', "%{$value}%");
-                $q->orWhere('merchant_email', 'like', "%{$value}%");
-                $q->orWhere('merchant_mobile', 'like', "%{$value}%");
-            }
-        })->get();
+        // $merchantSearch = Merchant::where(function ($q) use ($searchValues) {
+        //     foreach ($searchValues as $value) {
+        //         $q->Where('merchant_name', 'like', "%{$value}%");
+        //         $q->orWhere('merchant_number', 'like', "%{$value}%");
+        //         $q->orWhere('merchant_email', 'like', "%{$value}%");
+        //         $q->andWhere('merchant_mobile', 'like', "%{$value}%");
+        //     }
+        // })->paginate(30);
+        $merchantSearch = Merchant::where('merchant_name', 'like', "%{$request->merchant_name}%")
+        ->where('merchant_number', 'like', "%{$request->merchant_number}%")
+        ->where('merchant_email', 'like', "%{$request->merchant_email}%")
+        ->where('merchant_mobile', 'like', "%{$request->merchant_mobile}%")
+        ->paginate(30);
         return response()->json(
             $merchantSearch
         );
