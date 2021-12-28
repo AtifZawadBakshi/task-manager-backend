@@ -24,7 +24,6 @@ class HomeController extends Controller
 
     public function permission()
     {
-     
         $permissions = Permission::latest()->paginate(10);
         return response()->json($permissions);
     }

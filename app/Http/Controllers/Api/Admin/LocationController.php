@@ -15,7 +15,8 @@ class LocationController extends Controller
      */
     public function index()
     {
-        $locations = Location::paginate(10);
+        // $locations = Location::latest()->get();
+        $locations = Location::orderBy('id', 'DESC')->get();
         return response()->json($locations);
     }
 
