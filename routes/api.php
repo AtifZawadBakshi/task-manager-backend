@@ -66,20 +66,23 @@ Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin', 'middleware' =
     Route::get('/userList', [AdminAuthController::class, 'userList']);
     Route::post('/logout', [AdminAuthController::class, 'logout']);
     Route::post('/profile', [AdminAuthController::class, 'profile']);
-    //***Spatie Role***//
+    //***Spatie Permission***//
     Route::get('/permission', [HomeController::class, 'permission']);
     Route::post('/permission-store', [HomeController::class, 'permissionCreate']);
     Route::get('/permission-edit/{id}', [HomeController::class, 'permissionEdit']);
     Route::put('/permission-update', [HomeController::class, 'permissionUpdate']);
+    Route::post('/permission-delete', [HomeController::class, 'permissionDelete']);
     Route::get('/permission-search/{name}', [HomeController::class, 'permissionSearch']);
+    //***Spatie Role***//
     Route::post('/role', [HomeController::class, 'role']);
-    Route::post('/roleDelete', [HomeController::class, 'roleDelete']);
-    Route::post('/permissionDelete', [HomeController::class, 'permissionDelete']);
-    Route::post('/role_has_permission', [HomeController::class, 'role_has_permission']);
-    Route::post('/remove_role', [HomeController::class, 'remove_role']);
-    Route::post('/revoke_Permission_To', [HomeController::class, 'revoke_Permission_To']);
-    Route::post('/model_Has_Permission', [HomeController::class, 'model_Has_Permission']);
-    Route::post('/model_Has_Role', [HomeController::class, 'model_Has_Role']);
+    Route::get('/show-role', [HomeController::class, 'showRole']);
+    Route::post('/role-delete', [HomeController::class, 'roleDelete']);
+    Route::post('/remove-role', [HomeController::class, 'removeRole']);
+    Route::post('/role-has-permission', [HomeController::class, 'roleHasPermission']);
+    Route::post('/revoke-Permission-To', [HomeController::class, 'revokePermissionTo']);
+    //***Spatie Model***//
+    Route::post('/model-Has-Permission', [HomeController::class, 'modelHasPermission']);
+    Route::post('/model-Has-Role', [HomeController::class, 'modelHasRole']);
 
     //***Warehouse Api***//
     //Route::resource('warehouse', WarehouseController::class);

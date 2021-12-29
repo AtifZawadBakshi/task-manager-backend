@@ -29,6 +29,13 @@ class HomeController extends Controller
         return response()->json($permissions);
     }
 
+    public function showRole()
+    {
+        // return 'role';
+        $showRole = Role::latest()->get();
+        return response()->json($showRole);
+    }
+
     public function role(Request $request)
     {
         $role = Role::create([
@@ -97,7 +104,7 @@ class HomeController extends Controller
         return response()->json($permissionDelete, 201);
     }
 
-    public function role_has_permission(Request $request)
+    public function roleHasPermission(Request $request)
     {
         // return 'ok';
         $role = Role::find($request->role_id);
@@ -110,39 +117,39 @@ class HomeController extends Controller
         return response()->json($roleHasPermission, 201);
     }
 
-    public function remove_role(Request $request)
+    public function removeRole(Request $request)
     {
         $role = Role::find($request->role_id);
         $permission = Permission::find($request->permission_id);
-        $remove_role = $permission->removeRole($role);
-        return response()->json($remove_role, 200);
+        $removeRole = $permission->removeRole($role);
+        return response()->json($removeRole, 200);
     }
 
-    public function revoke_Permission_To(Request $request)
+    public function revokePermissionTo(Request $request)
     {
         // $user = auth('user-api')->user();
         $role = Role::find($request->role_id);
         $permission = Permission::find($request->permission_id);
-        $remove_permission = $role->revokePermissionTo($permission);
-        return response()->json($remove_permission, 200);
+        $revokePermissionTo = $role->revokePermissionTo($permission);
+        return response()->json($revokePermissionTo, 200);
     }
 
-    public function model_Has_Permission(Request $request)
+    public function modelHasPermission(Request $request)
     {
         $user = auth('admin-api')->user();
         // $role = Role::find($request->role_id);
         $permission = Permission::find($request->permission_id);
-        $model_Has_Permission = $user->givePermissionTo($permission);
-        return response()->json($model_Has_Permission, 200);
+        $modelHasPermission = $user->givePermissionTo($permission);
+        return response()->json($modelHasPermission, 200);
     }
 
-    public function model_Has_Role(Request $request)
+    public function modelHasRole(Request $request)
     {
         $user = auth('admin-api')->user();
         $role = Role::find($request->role_id);
         // $permission = Permission::find($request->permission_id);
-        $model_Has_Role = $user->assignRole($role);
-        return response()->json($model_Has_Role, 200);
+        $modelHasRole = $user->assignRole($role);
+        return response()->json($modelHasRole, 200);
     }
 
     public function permissionSearch($name) 
