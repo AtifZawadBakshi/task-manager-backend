@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Available;
 use App\Models\Location;
 use App\Models\Warehouse;
+use Illuminate\Support\Facades\Validator;
 
 class AvailableController extends Controller
 {
@@ -29,6 +30,16 @@ class AvailableController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'warehouse_id' => 'required',
+            'location_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $data['status'] = false;
+            $data['error'] = $validator->errors();
+            return response()->json($data, 422);
+        }
         $available = new Available();
         $available->warehouse_id = $request->warehouse_id;
         $available->location_id = $request->location_id;

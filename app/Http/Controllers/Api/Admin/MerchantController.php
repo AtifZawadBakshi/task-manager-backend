@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Merchant;
+use Illuminate\Support\Facades\Validator;
 
 class MerchantController extends Controller
 {
@@ -28,6 +29,27 @@ class MerchantController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'merchant_name' => 'required',
+            'merchant_number' => 'required',
+            'merchant_address' => 'required',
+            'merchant_email' => 'required',
+            'merchant_mobile' => 'required',
+            'tax_no' => 'required',
+            'agreement_copy' => 'required',
+            'account_number' => 'required',
+            'bank_name' => 'required',
+            'branch_name' => 'required',
+            'contact_name' => 'required',
+            'contact_mobile' => 'required',
+            'contact_email' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $data['status'] = false;
+            $data['error'] = $validator->errors();
+            return response()->json($data, 422);
+        }
         // return 'store';
         $merchant = new Merchant();
         $merchant->merchant_name = $request->merchant_name;

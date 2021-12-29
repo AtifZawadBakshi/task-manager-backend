@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Location;
+use Illuminate\Support\Facades\Validator;
 
 class LocationController extends Controller
 {
@@ -28,6 +29,21 @@ class LocationController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'area' => 'required',
+            'thana' => 'required',
+            'post_code' => 'required',
+            'home_delivery' => 'required',
+            'lockdown' => 'required',
+            'base_charge' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $data['status'] = false;
+            $data['error'] = $validator->errors();
+            return response()->json($data, 422);
+        }
+
         $location = new Location();
         $location->division = $request->division;
         $location->district = $request->district ;

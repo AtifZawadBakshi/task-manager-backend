@@ -8,6 +8,7 @@ use App\Models\Parcel;
 // use App\Models\Location;
 // use App\Models\Available;
 // use App\Models\Merchant;
+use Illuminate\Support\Facades\Validator;
 
 class ParcelController extends Controller
 {
@@ -30,6 +31,26 @@ class ParcelController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'merchant_id' => 'required',
+            'available_id' => 'required',
+            'pickup_location_id' => 'required',
+            'delivery_location_id' => 'required',
+            'pickup_warehouse_id' => 'required',
+            'delivery_warehouse_id' => 'required',
+            'order_no' => 'required',
+            'customer_name' => 'required',
+            'customer_number' => 'required',
+            'customer_email' => 'required',
+            'customer_address' => 'required',
+            'customer_zip_code' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $data['status'] = false;
+            $data['error'] = $validator->errors();
+            return response()->json($data, 422);
+        }
         // return 'store';
         $parcel = new Parcel();
         $parcel->merchant_id = $request->merchant_id;

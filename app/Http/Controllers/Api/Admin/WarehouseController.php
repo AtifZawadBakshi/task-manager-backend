@@ -8,6 +8,7 @@ use App\Models\Warehouse;
 use App\Models\Available;
 use App\Models\PickupDeliveryMan;
 use App\Models\Location;
+use Illuminate\Support\Facades\Validator;
 
 class WarehouseController extends Controller
 {
@@ -34,6 +35,18 @@ class WarehouseController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'post_code' => 'required',
+            'area' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $data['status'] = false;
+            $data['error'] = $validator->errors();
+            return response()->json($data, 422);
+        }
+        
         $warehouse = new Warehouse();
         $warehouse->name = $request->name;
         $warehouse->post_code = $request->post_code;

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\PickupDeliveryMan;
+use Illuminate\Support\Facades\Validator;
 
 class PickupDeliveryManController extends Controller
 {
@@ -27,6 +28,16 @@ class PickupDeliveryManController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required',
+            'warehouse_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $data['status'] = false;
+            $data['error'] = $validator->errors();
+            return response()->json($data, 422);
+        }
         $pickupDeliveryMan = new PickupDeliveryMan();
         $pickupDeliveryMan->user_id = $request->user_id;
         $pickupDeliveryMan->warehouse_id = $request->warehouse_id ;
