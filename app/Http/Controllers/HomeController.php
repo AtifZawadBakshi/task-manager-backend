@@ -156,7 +156,7 @@ class HomeController extends Controller
             foreach ($searchValues as $value) {
                 $q->Where('name', 'like', "%{$value}%");
             }
-        })->get();
+        })->latest()->paginate(10);
         return response()->json(
             $permissionSearch
         );
