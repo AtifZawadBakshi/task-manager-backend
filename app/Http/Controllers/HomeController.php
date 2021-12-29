@@ -145,4 +145,21 @@ class HomeController extends Controller
         return response()->json($model_Has_Role, 200);
     }
 
+    public function permissionSearch($name) 
+    {
+        $reservedSymbols = ['-', '+', '<', '>', '@', '(', ')', '~'];
+        $searchTerm = str_replace($reservedSymbols, ' ', $name);
+
+        $searchValues = preg_split('/\s+/', $searchTerm, -1, PREG_SPLIT_NO_EMPTY);
+
+        $permissionSearch = Permission::where(function ($q) use ($searchValues) {
+            foreach ($searchValues as $value) {
+                $q->Where('name', 'like', "%{$value}%");
+            }
+        })->get();
+        return response()->json(
+            $permissionSearch
+        );
+    }
+
 }
