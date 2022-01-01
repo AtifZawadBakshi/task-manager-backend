@@ -38,7 +38,7 @@ Route::group(['prefix' => 'v1/user', 'namespace' => 'Api\User'], function () {
     // Route::post('/resend-otp', 'AuthController@resendOtp');
     // Route::post('/forgot-password', 'AuthController@forgotPassword');
 
-    
+
 });
  Route::group(['prefix' => 'v1/user', 'namespace' => 'Api\User', 'middleware' => 'checkUser'], function () {
 
@@ -73,6 +73,7 @@ Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin', 'middleware' =
     Route::put('/permission-update', [HomeController::class, 'permissionUpdate']);
     Route::post('/permission-delete', [HomeController::class, 'permissionDelete']);
     Route::get('/permission-search/{name}', [HomeController::class, 'permissionSearch']);
+    Route::get('/permission-search ', [HomeController::class, 'empty']);
     //***Spatie Role***//
     Route::post('/role', [HomeController::class, 'role']);
     Route::get('/show-role', [HomeController::class, 'showRole']);
@@ -117,7 +118,7 @@ Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin', 'middleware' =
     //***MerchantUser Api***//
     Route::resource('merchant-user', 'MerchantUserController');
     Route::post('merchant-user-info', 'MerchantUserController@merchant_user_info');
-    
+
 });
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

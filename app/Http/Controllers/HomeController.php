@@ -59,9 +59,12 @@ class HomeController extends Controller
         ]);
 
         if ($validator->fails()) {
-            $data['status'] = false;
-            $data['error'] = $validator->errors();
-            return response()->json($data, 422);
+            // $data['status'] = false;
+            // $data['error'] = $validator->errors();
+            return response()->json([
+                'error' => true,
+                'errors' => $validator->errors()
+            ]);
         }
 
         $permission = Permission::create([
@@ -79,8 +82,11 @@ class HomeController extends Controller
 
     public function permissionUpdate(Request $request)
     {
+
+        $permission = Permission::where('id', $request->id)->first();
+
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
+            'name' => 'required|unique:permissions',
             'guard_name' => 'required',
         ]);
 
@@ -152,20 +158,45 @@ class HomeController extends Controller
         return response()->json($modelHasRole, 200);
     }
 
-    public function permissionSearch($name) 
+    public function permissionSearch($name)
     {
-        $reservedSymbols = ['-', '+', '<', '>', '@', '(', ')', '~'];
-        $searchTerm = str_replace($reservedSymbols, ' ', $name);
+        if($name != null){
+            $reservedSymbols = ['-', '+', '<', '>', '@', '(', ')', '~'];
+            $searchTerm = str_replace($reservedSymbols, ' ', $name);
 
-        $searchValues = preg_split('/\s+/', $searchTerm, -1, PREG_SPLIT_NO_EMPTY);
+            $searchValues = preg_split('/\s+/', $searchTerm, -1, PREG_SPLIT_NO_EMPTY);
 
-        $permissionSearch = Permission::where(function ($q) use ($searchValues) {
-            foreach ($searchValues as $value) {
-                $q->Where('name', 'like', "%{$value}%");
-            }
-        })->latest()->paginate(10);
+            $permissionSearch = Permission::where(function ($q) use ($searchValues) {
+                foreach ($searchValues as $value) {
+                    $q->Where('name', 'like', "%{$value}%");//'/^\S*$/u', $value
+                    // $q->orWhere('/^\S*$/u', 'like', "%{$value}%");//'/^\S*$/u', $value
+                }
+            })->latest()->paginate(10);
+            return response()->json(
+                $permissionSearch
+            );
+        }else{
+            return response()->json(
+                'Please input valuable data!'
+            );
+        }
+        // $reservedSymbols = ['-', '+', '<', '>', '@', '(', ')', '~'];
+        // $searchTerm = str_replace($reservedSymbols, ' ', $name);
+
+        // $searchValues = preg_split('/\s+/', $searchTerm, -1, PREG_SPLIT_NO_EMPTY);
+
+        // $permissionSearch = Permission::where(function ($q) use ($searchValues) {
+        //     foreach ($searchValues as $value) {
+        //         $q->Where('name', 'like', "%{$value}%");
+        //     }
+        // })->latest()->paginate(10);
+        // return response()->json(
+        //     $permissionSearch
+        // );
+    }
+    public function empty(){
         return response()->json(
-            $permissionSearch
+            'Please input valuable data!'
         );
     }
 
