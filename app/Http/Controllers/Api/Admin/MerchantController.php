@@ -36,7 +36,7 @@ class MerchantController extends Controller
             'merchant_email' => 'required',
             'merchant_mobile' => 'required',
             'tax_no' => 'required',
-            'agreement_copy' => 'required',
+            // 'agreement_copy' => 'required',
             'account_number' => 'required',
             'bank_name' => 'required',
             'branch_name' => 'required',
@@ -47,8 +47,8 @@ class MerchantController extends Controller
 
         if ($validator->fails()) {
             $data['status'] = false;
-            $data['error'] = $validator->errors();
-            return response()->json($data, 422);
+            $data['errors'] = $validator->errors();
+            return response()->json($data);
         }
         // return 'store';
         $merchant = new Merchant();
@@ -93,10 +93,7 @@ class MerchantController extends Controller
                 'message' => 'Not Found!'
             ]);
         }else{
-            return response()->json([
-                'status' => true,
-                'data' => $merchant,
-            ]);
+            return response()->json($merchant);
         }
     }
 
@@ -167,7 +164,7 @@ class MerchantController extends Controller
         }
     }
 
-    public function merchantSearch(Request $request) 
+    public function merchantSearch(Request $request)
     {
         // return $request;
         // $reservedSymbols = ['-', '+', '<', '>', '@', '(', ')', '~', '&', '?', '='];

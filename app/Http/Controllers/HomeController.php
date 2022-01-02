@@ -62,16 +62,20 @@ class HomeController extends Controller
             // $data['status'] = false;
             // $data['error'] = $validator->errors();
             return response()->json([
-                'error' => true,
+                'status' => false,
                 'errors' => $validator->errors()
             ]);
         }
 
         $permission = Permission::create([
+
             'name' => $request->name,
             'guard_name' => $request->guard_name,
         ]);
-        return response()->json($permission, 201);
+        return response()->json([
+            'status' => true,
+            'permission' => $permission
+        ]);
     }
 
     public function permissionEdit($id)
@@ -86,7 +90,7 @@ class HomeController extends Controller
         $permission = Permission::where('id', $request->id)->first();
 
         $validator = Validator::make($request->all(), [
-            'name' => 'required|unique:permissions',
+            'name' => 'unique:permissions,name,' . $request->id,
             'guard_name' => 'required',
         ]);
 

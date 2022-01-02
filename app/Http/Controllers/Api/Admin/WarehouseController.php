@@ -36,17 +36,17 @@ class WarehouseController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'post_code' => 'required',
+            'name' => 'required|unique:warehouses',
+            'post_code' => 'required|unique:warehouses',
             'area' => 'required',
         ]);
 
         if ($validator->fails()) {
             $data['status'] = false;
-            $data['error'] = $validator->errors();
-            return response()->json($data, 422);
+            $data['errors'] = $validator->errors();
+            return response()->json($data);
         }
-        
+
         $warehouse = new Warehouse();
         $warehouse->name = $request->name;
         $warehouse->post_code = $request->post_code;
@@ -92,6 +92,18 @@ class WarehouseController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|unique:warehouses,name,' . $id,
+            'post_code' => 'required|unique:warehouses,post_code,' .$id,
+            'area' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $data['status'] = false;
+            $data['errors'] = $validator->errors();
+            return response()->json($data);
+        }
+
         $warehouse = Warehouse::where('id', $id)->first();
         if($warehouse == null){
             return response()->json([
@@ -111,7 +123,7 @@ class WarehouseController extends Controller
                 'message' => 'Updated Successfully!'
             ]);
         }
-        
+
     }
 
     /**
@@ -135,7 +147,7 @@ class WarehouseController extends Controller
                 'message' => 'Deleted Successfully!'
             ]);
         }
-        
+
     }
 
     // public function warehouse_info(){
@@ -165,7 +177,7 @@ class WarehouseController extends Controller
         }
     }
 
-    public function warehouseSearch($name) 
+    public function warehouseSearch($name)
     {
         $reservedSymbols = ['-', '+', '<', '>', '@', '(', ')', '~'];
         $searchTerm = str_replace($reservedSymbols, ' ', $name);
@@ -181,5 +193,5 @@ class WarehouseController extends Controller
             $warehouse_search
         );
     }
-    
+
 }

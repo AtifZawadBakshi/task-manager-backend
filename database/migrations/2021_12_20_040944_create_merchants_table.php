@@ -22,7 +22,7 @@ class CreateMerchantsTable extends Migration
             $table->string('merchant_mobile');
             $table->string('tax_no');
             $table->string('bin_no')->nullable();
-            $table->string('agreement_copy');
+            $table->string('agreement_copy')->nullable();
             $table->string('account_title');
             $table->string('account_number');
             $table->string('bank_name');
