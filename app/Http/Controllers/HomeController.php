@@ -90,28 +90,53 @@ class HomeController extends Controller
         $permission = Permission::where('id', $request->id)->first();
 
         $validator = Validator::make($request->all(), [
-            'name' => 'unique:permissions,name,' . $request->id,
+            'name' => 'required|unique:permissions,name,' . $request->id,
             'guard_name' => 'required',
         ]);
 
         if ($validator->fails()) {
-            $data['status'] = false;
-            $data['error'] = $validator->errors();
-            return response()->json($data, 422);
+            // $data['status'] = false;
+            // $data['error'] = $validator->errors();
+            return response()->json([
+                'status' => false,
+                'errors' => $validator->errors()
+            ]);
         }
 
+        // if ($validator->fails()) {
+        //     $data['status'] = false;
+        //     $data['errors'] = $validator->errors();
+        //     return response()->json($data, 422);
+        // }
+
         $permission = Permission::where('id', $request->id)->first();
-        $permission = $permission->update([
-            'name' => $request->name,
-            'guard_name' => $request->guard_name,
+        $permission->name = $request->name;
+        $permission->guard_name= $request->guard_name;
+        $permission->update();
+        return response()->json([
+            'status' => true,
+            'permission' => $permission
         ]);
-        return response()->json($permission);
     }
 
-    public function permissionDelete(Request $request)
+    public function permissionDelete($id)
     {
-        $permissionDelete = Permission::find($request->id)->delete();
-        return response()->json($permissionDelete, 201);
+        $merchant = Permission::where('id', $id)->first();
+        if($merchant == null){
+            return response()->json([
+                'status' => false,
+                'message' => 'Not Found!'
+            ]);
+        }else{
+            $merchant = Permission::where('id', $id)->delete();
+            return response()->json([
+                'status' => true,
+                'message' => 'Permission Deleted Successfully!'
+            ]);
+        }
+
+        // $permissionDelete = Permission::find($id)->delete();
+        // return response()->json($permissionDelete);
     }
 
     public function roleHasPermission(Request $request)

@@ -71,7 +71,7 @@ Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin', 'middleware' =
     Route::post('/permission-store', [HomeController::class, 'permissionCreate']);
     Route::get('/permission-edit/{id}', [HomeController::class, 'permissionEdit']);
     Route::put('/permission-update', [HomeController::class, 'permissionUpdate']);
-    Route::post('/permission-delete', [HomeController::class, 'permissionDelete']);
+    Route::get('/permission-delete/{id}', [HomeController::class, 'permissionDelete']);
     Route::get('/permission-search/{name}', [HomeController::class, 'permissionSearch']);
     Route::get('/permission-search ', [HomeController::class, 'empty']);
     //***Spatie Role***//

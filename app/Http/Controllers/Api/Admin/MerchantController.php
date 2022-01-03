@@ -36,7 +36,8 @@ class MerchantController extends Controller
             'merchant_email' => 'required',
             'merchant_mobile' => 'required',
             'tax_no' => 'required',
-            // 'agreement_copy' => 'required',
+            // 'agreement_copy' => 'required|csv,txt,xlx,xls,xlsx,docx,pdf|max:2048',
+            'agreement_copy' => 'required',
             'account_number' => 'required',
             'bank_name' => 'required',
             'branch_name' => 'required',
@@ -50,6 +51,9 @@ class MerchantController extends Controller
             $data['errors'] = $validator->errors();
             return response()->json($data);
         }
+
+        // $name = $request->file('agreement_copy')->getClientOriginalName();
+        $path = $request->file('agreement_copy')->store('public/files');
         // return 'store';
         $merchant = new Merchant();
         $merchant->merchant_name = $request->merchant_name;
@@ -59,7 +63,8 @@ class MerchantController extends Controller
         $merchant->merchant_mobile = $request->merchant_mobile;
         $merchant->tax_no = $request->tax_no;
         $merchant->bin_no = $request->bin_no;
-        $merchant->agreement_copy = $request->agreement_copy;
+        // $merchant->agreement_copy = $request->agreement_copy;
+        $merchant->agreement_copy = $path;
         $merchant->account_title = $request->account_title;
         $merchant->account_number = $request->account_number;
         $merchant->bank_name = $request->bank_name;
