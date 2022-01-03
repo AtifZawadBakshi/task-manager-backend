@@ -29,28 +29,6 @@ class HomeController extends Controller
         return response()->json($permissions);
     }
 
-    public function showRole()
-    {
-        // return 'role';
-        $showRole = Role::latest()->get();
-        return response()->json($showRole);
-    }
-
-    public function role(Request $request)
-    {
-        $role = Role::create([
-            'name' => $request->name,
-            'guard_name' => $request->guard_name,
-        ]);
-        return response()->json($role, 201);
-    }
-
-    public function roleDelete(Request $request)
-    {
-        $roleDelete = Role::find($request->id)->delete();
-        return response()->json($roleDelete, 201);
-    }
-
     public function permissionCreate(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -139,6 +117,164 @@ class HomeController extends Controller
         // return response()->json($permissionDelete);
     }
 
+    public function permissionSearch($name)
+    {
+        if($name != null){
+            $reservedSymbols = ['-', '+', '<', '>', '@', '(', ')', '~'];
+            $searchTerm = str_replace($reservedSymbols, ' ', $name);
+
+            $searchValues = preg_split('/\s+/', $searchTerm, -1, PREG_SPLIT_NO_EMPTY);
+
+            $permissionSearch = Permission::where(function ($q) use ($searchValues) {
+                foreach ($searchValues as $value) {
+                    $q->Where('name', 'like', "%{$value}%");//'/^\S*$/u', $value
+                    // $q->orWhere('/^\S*$/u', 'like', "%{$value}%");//'/^\S*$/u', $value
+                }
+            })->latest()->paginate(10);
+            return response()->json(
+                $permissionSearch
+            );
+        }else{
+            return response()->json(
+                'Please input valuable data!'
+            );
+        }
+    }
+    public function empty(){
+        return response()->json(
+            'Please input valuable data!'
+        );
+    }
+
+    public function showRole()
+    {
+        // return 'role';
+        $showRole = Role::latest()->get();
+        return response()->json($showRole);
+    }
+
+    public function findRole($id, Request $request)
+    {
+        try {
+            $role             = Role::with('permissions')->find($id);
+            $checkPermissions = $role->permissions->pluck('name');
+            return response()->json([
+                'success'          => true,
+                'role'             => $role,
+                'checkPermissions' => $checkPermissions,
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'success' => true,
+                'message' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function createRole(Request $request)
+    {
+        // return response()->json($request);
+        // $role = Role::create([
+        //     'name' => $request->name,
+        //     'guard_name' => $request->guard_name,
+        // ]);
+        // return response()->json($role, 201);
+
+            $validator= $this->validationForm($request,$id="");
+            if($validator->fails()){
+                return response()->json(['success' =>false ,'errors' =>$validator->errors()]);
+            }
+            try {
+                $role = Role::create([
+                    'name' => $request->name,
+                    'guard_name'=>$request->guard_name
+                ]);
+                // $roleHasPermission =
+                if ($role) {
+                    $role->givePermissionTo($request->permission_id);
+                }
+                return response()->json([
+                    'success'=>true ,
+                    'message'=>'Role Add successfully',
+                    'role'=>$role
+                ]);
+             } catch (\Throwable $th) {
+                 return response()->json(['success'=>false ,'errors'=>$th->getMessage()]);
+             }
+    }
+
+    public function editRole($id)
+    {
+        $role = Role::with('permissions')->find($id);
+        $checkpermissions = $role->permissions->pluck('id');
+        return response()->json([ 'success'=>true, 'role' => $role,'checkpermissions'=>$checkpermissions]);
+    }
+
+    public function updateRole(Request $request, $id)
+    {
+            $role= Role::find($id);
+
+            // return response()->json($request->permission);
+
+            $validator= $this->validationForm($request,$role->id);
+
+            if($validator->fails()){
+                return response()->json(['success' =>false ,'errors' =>$validator->errors()]);
+            }
+
+            try {
+
+                if(!empty($request->id && $role)){
+                    $role->name=$request->name;
+                    $role->guard_name=$request->guard_name;
+                    if ($role->update()) {
+                        $role->syncPermissions($request->permission_id);
+                        return response()->json([
+                            'success'=>true ,
+                            'message'=>'Role Updated successfully',
+                            'role'=>$role
+                        ]);
+                    }
+
+                }
+            } catch (\Throwable $th) {
+                 return response()->json(['success'=>false ,'errors'=>$th->getMessage()]);
+            }
+    }
+
+    public function destroyRole(Request $request)
+    {
+        $role = Role::find($request->role_id);
+        $permission = Permission::find($request->permission_id);
+        $destroyRole = $role->revokePermissionTo($permission);
+        return response()->json($destroyRole);
+
+    }
+
+    protected function validationForm($request, $id)
+    {
+        if($id !=""){
+           $validator= Validator::make($request->all(),[
+               'name'=>'required|unique:roles,name,'.$id
+           ],[
+             'name.required' =>" role name is required"
+           ]);
+       }else{
+           $validator= Validator::make($request->all(),[
+               'name'=>'required|unique:roles'
+           ],[
+             'name.required' =>" role name is required"
+           ]);
+       }
+       return $validator;
+   }
+
+    public function roleDelete(Request $request)
+    {
+        $roleDelete = Role::find($request->id)->delete();
+        return response()->json($roleDelete, 201);
+    }
+
     public function roleHasPermission(Request $request)
     {
         // return 'ok';
@@ -162,11 +298,12 @@ class HomeController extends Controller
 
     public function revokePermissionTo(Request $request)
     {
+        // return 'revokePermissionTo';
         // $user = auth('user-api')->user();
         $role = Role::find($request->role_id);
         $permission = Permission::find($request->permission_id);
         $revokePermissionTo = $role->revokePermissionTo($permission);
-        return response()->json($revokePermissionTo, 200);
+        return response()->json($revokePermissionTo);
     }
 
     public function modelHasPermission(Request $request)
@@ -185,48 +322,6 @@ class HomeController extends Controller
         // $permission = Permission::find($request->permission_id);
         $modelHasRole = $user->assignRole($role);
         return response()->json($modelHasRole, 200);
-    }
-
-    public function permissionSearch($name)
-    {
-        if($name != null){
-            $reservedSymbols = ['-', '+', '<', '>', '@', '(', ')', '~'];
-            $searchTerm = str_replace($reservedSymbols, ' ', $name);
-
-            $searchValues = preg_split('/\s+/', $searchTerm, -1, PREG_SPLIT_NO_EMPTY);
-
-            $permissionSearch = Permission::where(function ($q) use ($searchValues) {
-                foreach ($searchValues as $value) {
-                    $q->Where('name', 'like', "%{$value}%");//'/^\S*$/u', $value
-                    // $q->orWhere('/^\S*$/u', 'like', "%{$value}%");//'/^\S*$/u', $value
-                }
-            })->latest()->paginate(10);
-            return response()->json(
-                $permissionSearch
-            );
-        }else{
-            return response()->json(
-                'Please input valuable data!'
-            );
-        }
-        // $reservedSymbols = ['-', '+', '<', '>', '@', '(', ')', '~'];
-        // $searchTerm = str_replace($reservedSymbols, ' ', $name);
-
-        // $searchValues = preg_split('/\s+/', $searchTerm, -1, PREG_SPLIT_NO_EMPTY);
-
-        // $permissionSearch = Permission::where(function ($q) use ($searchValues) {
-        //     foreach ($searchValues as $value) {
-        //         $q->Where('name', 'like', "%{$value}%");
-        //     }
-        // })->latest()->paginate(10);
-        // return response()->json(
-        //     $permissionSearch
-        // );
-    }
-    public function empty(){
-        return response()->json(
-            'Please input valuable data!'
-        );
     }
 
 }

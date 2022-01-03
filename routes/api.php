@@ -71,12 +71,16 @@ Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin', 'middleware' =
     Route::post('/permission-store', [HomeController::class, 'permissionCreate']);
     Route::get('/permission-edit/{id}', [HomeController::class, 'permissionEdit']);
     Route::put('/permission-update', [HomeController::class, 'permissionUpdate']);
-    Route::get('/permission-delete/{id}', [HomeController::class, 'permissionDelete']);
+    Route::delete('/permission-delete/{id}', [HomeController::class, 'permissionDelete']);
     Route::get('/permission-search/{name}', [HomeController::class, 'permissionSearch']);
     Route::get('/permission-search ', [HomeController::class, 'empty']);
     //***Spatie Role***//
-    Route::post('/role', [HomeController::class, 'role']);
     Route::get('/show-role', [HomeController::class, 'showRole']);
+    Route::get('/find-role/{id}', [HomeController::class, 'findRole']);
+    Route::post('/create-role', [HomeController::class, 'createRole']);
+    Route::get('/edit-role/{id}', [HomeController::class, 'editRole']);
+    Route::put('/update-role/{id}', [HomeController::class, 'updateRole']);
+    Route::delete('/destroy-role', [HomeController::class, 'destroyRole']);
     Route::post('/role-delete', [HomeController::class, 'roleDelete']);
     Route::post('/remove-role', [HomeController::class, 'removeRole']);
     Route::post('/role-has-permission', [HomeController::class, 'roleHasPermission']);
