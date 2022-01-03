@@ -6,9 +6,17 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Merchant;
 use Illuminate\Support\Facades\Validator;
+use App\Classes\FileUpload;
+use Illuminate\Support\Str;
 
 class MerchantController extends Controller
 {
+    protected $file;
+    public function __construct(FileUpload $fileUpload)
+    {
+        $this->file = $fileUpload;
+        $this->middleware('auth:admin-api');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -52,8 +60,10 @@ class MerchantController extends Controller
             return response()->json($data);
         }
 
+        $fileData = $this->file->uploadFile($request, $fieldname = "agreement_copy", $file = "", $folder = "assets/files");
+        // $input['file'] = $this->file->uploadFile($request, $fieldname = "file", $file = "", $folder = "assets/files");
         // $name = $request->file('agreement_copy')->getClientOriginalName();
-        $path = $request->file('agreement_copy')->store('public/files');
+        // $path = $request->file('agreement_copy')->store('public/files');
         // return 'store';
         $merchant = new Merchant();
         $merchant->merchant_name = $request->merchant_name;
@@ -64,7 +74,8 @@ class MerchantController extends Controller
         $merchant->tax_no = $request->tax_no;
         $merchant->bin_no = $request->bin_no;
         // $merchant->agreement_copy = $request->agreement_copy;
-        $merchant->agreement_copy = $path;
+        // $merchant->agreement_copy = $path;
+        $merchant->agreement_copy = $fileData;
         $merchant->account_title = $request->account_title;
         $merchant->account_number = $request->account_number;
         $merchant->bank_name = $request->bank_name;
