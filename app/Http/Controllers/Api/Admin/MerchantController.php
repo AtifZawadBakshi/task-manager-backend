@@ -60,7 +60,7 @@ class MerchantController extends Controller
             return response()->json($data);
         }
 
-        $fileData = $this->file->uploadFile($request, $fieldname = "agreement_copy", $file = "", $folder = "assets/files");
+        $fileUpload = $this->file->uploadFile($request, $fieldname = "agreement_copy", $file = "", $folder = "assets/files");
         // $input['file'] = $this->file->uploadFile($request, $fieldname = "file", $file = "", $folder = "assets/files");
         // $name = $request->file('agreement_copy')->getClientOriginalName();
         // $path = $request->file('agreement_copy')->store('public/files');
@@ -75,7 +75,7 @@ class MerchantController extends Controller
         $merchant->bin_no = $request->bin_no;
         // $merchant->agreement_copy = $request->agreement_copy;
         // $merchant->agreement_copy = $path;
-        $merchant->agreement_copy = $fileData;
+        $merchant->agreement_copy = $fileUpload;
         $merchant->account_title = $request->account_title;
         $merchant->account_number = $request->account_number;
         $merchant->bank_name = $request->bank_name;
