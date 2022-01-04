@@ -45,7 +45,7 @@ class MerchantController extends Controller
             'merchant_mobile' => 'required',
             'tax_no' => 'required',
             // 'agreement_copy' => 'required|csv,txt,xlx,xls,xlsx,docx,pdf|max:2048',
-            'agreement_copy' => 'required',
+            // 'agreement_copy' => 'required',
             'account_number' => 'required',
             'bank_name' => 'required',
             'branch_name' => 'required',
@@ -60,7 +60,7 @@ class MerchantController extends Controller
             return response()->json($data);
         }
 
-        $fileUpload = $this->file->uploadFile($request, $fieldname = "agreement_copy", $file = "", $folder = "assets/files");
+        $fileLoad = $this->file->uploadFile($request, $fieldname = "agreement_copy", $file = "", $folder = "assets/files");
         // $input['file'] = $this->file->uploadFile($request, $fieldname = "file", $file = "", $folder = "assets/files");
         // $name = $request->file('agreement_copy')->getClientOriginalName();
         // $path = $request->file('agreement_copy')->store('public/files');
@@ -75,7 +75,7 @@ class MerchantController extends Controller
         $merchant->bin_no = $request->bin_no;
         // $merchant->agreement_copy = $request->agreement_copy;
         // $merchant->agreement_copy = $path;
-        $merchant->agreement_copy = $fileUpload;
+        $merchant->agreement_copy = $fileLoad;
         $merchant->account_title = $request->account_title;
         $merchant->account_number = $request->account_number;
         $merchant->bank_name = $request->bank_name;
@@ -122,7 +122,6 @@ class MerchantController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // return 'update';
         $merchant = Merchant::where('id', $id)->first();
         if($merchant == null){
             return response()->json([
@@ -130,6 +129,7 @@ class MerchantController extends Controller
                 'message' => 'Not Found!'
             ]);
         }else{
+            $fileLoad = $this->file->uploadFile($request, $fieldname = "agreement_copy", $file = "", $folder = "assets/files");
             $merchant->merchant_name = $request->merchant_name;
             $merchant->merchant_number = $request->merchant_number;
             $merchant->merchant_address = $request->merchant_address;
@@ -137,7 +137,7 @@ class MerchantController extends Controller
             $merchant->merchant_mobile = $request->merchant_mobile;
             $merchant->tax_no = $request->tax_no;
             $merchant->bin_no = $request->bin_no;
-            $merchant->agreement_copy = $request->agreement_copy;
+            $merchant->agreement_copy = $fileLoad;
             $merchant->account_title = $request->account_title;
             $merchant->account_number = $request->account_number;
             $merchant->bank_name = $request->bank_name;
