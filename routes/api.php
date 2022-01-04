@@ -75,7 +75,7 @@ Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin', 'middleware' =
     Route::get('/permission-search/{name}', [HomeController::class, 'permissionSearch']);
     Route::get('/permission-search ', [HomeController::class, 'empty']);
     //***Spatie Role***//
-    Route::get('/show-role', [HomeController::class, 'showRole']);
+    Route::get('/role', [HomeController::class, 'showRole']);
     Route::get('/find-role/{id}', [HomeController::class, 'findRole']);
     Route::post('/create-role', [HomeController::class, 'createRole']);
     Route::get('/edit-role/{id}', [HomeController::class, 'editRole']);
