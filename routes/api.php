@@ -57,12 +57,15 @@ Route::group(['prefix' => 'v1/user', 'namespace' => 'Api\User'], function () {
 //*** Admin ***/
 
 Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin'], function () {
+    //***Admin Login***//
     Route::post('/register', [AdminAuthController::class, 'register']);
     Route::post('/login', [AdminAuthController::class, 'login']);
     // Route::get('/userList', [AdminAuthController::class, 'userList']);
 });
+
+//*** Admin Login with middleware***//
 Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin', 'middleware' => 'checkAdmin'], function () {
-    //***Admin***//
+    //***Admin Login***//
     Route::get('/userList', [AdminAuthController::class, 'userList']);
     Route::post('/logout', [AdminAuthController::class, 'logout']);
     Route::post('/profile', [AdminAuthController::class, 'profile']);
@@ -75,13 +78,14 @@ Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin', 'middleware' =
     Route::get('/permission-search/{name}', [HomeController::class, 'permissionSearch']);
     Route::get('/permission-search ', [HomeController::class, 'empty']);
     //***Spatie Role***//
-    Route::get('/role', [HomeController::class, 'showRole']);
-    Route::get('/find-role/{id}', [HomeController::class, 'findRole']);
-    Route::post('/create-role', [HomeController::class, 'createRole']);
-    Route::get('/edit-role/{id}', [HomeController::class, 'editRole']);
-    Route::put('/update-role/{id}', [HomeController::class, 'updateRole']);
-    Route::delete('/destroy-role', [HomeController::class, 'destroyRole']);
-    Route::post('/role-delete', [HomeController::class, 'roleDelete']);
+    Route::get('/role', [HomeController::class, 'role']);
+    Route::get('/role-find/{id}', [HomeController::class, 'roleFind']);
+    Route::post('/role-store', [HomeController::class, 'roleStore']);
+    Route::get('/role-edit/{id}', [HomeController::class, 'roleEdit']);
+    Route::put('/role-update/{id}', [HomeController::class, 'roleUpdate']);
+    Route::delete('/role-destroy', [HomeController::class, 'roleDestroy']);
+    //***Spatie Expra***//
+    Route::post('/roleDelete', [HomeController::class, 'roleDelete']);
     Route::post('/remove-role', [HomeController::class, 'removeRole']);
     Route::post('/role-has-permission', [HomeController::class, 'roleHasPermission']);
     Route::post('/revoke-Permission-To', [HomeController::class, 'revokePermissionTo']);
@@ -124,6 +128,9 @@ Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin', 'middleware' =
     Route::post('merchant-user-info', 'MerchantUserController@merchant_user_info');
 
 });
+
+
+
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();

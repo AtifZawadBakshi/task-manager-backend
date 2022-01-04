@@ -146,32 +146,32 @@ class HomeController extends Controller
         );
     }
 
-    public function showRole()
+    public function role()
     {
         // return 'role';
         $showRole = Role::with('permissions')->latest()->paginate(10);
         return response()->json($showRole);
     }
 
-    public function findRole($id, Request $request)
+    public function roleFind($id, Request $request)
     {
         try {
             $role             = Role::with('permissions')->find($id);
             $checkPermissions = $role->permissions->pluck('name');
             return response()->json([
-                'success'          => true,
+                'status'          => true,
                 'role'             => $role,
                 'checkPermissions' => $checkPermissions,
             ]);
         } catch (\Throwable $e) {
             return response()->json([
-                'success' => true,
+                'status' => true,
                 'message' => $e->getMessage(),
             ]);
         }
     }
 
-    public function createRole(Request $request)
+    public function roleStore(Request $request)
     {
         // return response()->json($request);
         // $role = Role::create([
@@ -182,7 +182,7 @@ class HomeController extends Controller
 
             $validator= $this->validationForm($request,$id="");
             if($validator->fails()){
-                return response()->json(['success' =>false ,'errors' =>$validator->errors()]);
+                return response()->json(['status' =>false ,'errors' =>$validator->errors()]);
             }
             try {
                 $role = Role::create([
@@ -194,23 +194,29 @@ class HomeController extends Controller
                     $role->givePermissionTo($request->permission_id);
                 }
                 return response()->json([
-                    'success'=>true ,
+                    'status'=>true ,
                     'message'=>'Role Add successfully',
                     'role'=>$role
                 ]);
              } catch (\Throwable $th) {
-                 return response()->json(['success'=>false ,'errors'=>$th->getMessage()]);
+                 return response()->json(['status'=>false ,'errors'=>$th->getMessage()]);
              }
     }
 
-    public function editRole($id)
+    public function roleEdit($id)
     {
         $role = Role::with('permissions')->find($id);
         $checkpermissions = $role->permissions->pluck('id');
-        return response()->json([ 'success'=>true, 'role' => $role,'checkpermissions'=>$checkpermissions]);
+
+           $data['role'] =$role;
+           $data['checkpermissions'] =$checkpermissions;
+
+
+        return response()->json($data);
     }
 
-    public function updateRole(Request $request, $id)
+
+    public function roleUpdate(Request $request, $id)
     {
             $role= Role::find($id);
 
@@ -219,7 +225,7 @@ class HomeController extends Controller
             $validator= $this->validationForm($request,$role->id);
 
             if($validator->fails()){
-                return response()->json(['success' =>false ,'errors' =>$validator->errors()]);
+                return response()->json(['status' =>false ,'errors' =>$validator->errors()]);
             }
 
             try {
@@ -230,7 +236,7 @@ class HomeController extends Controller
                     if ($role->update()) {
                         $role->syncPermissions($request->permission_id);
                         return response()->json([
-                            'success'=>true ,
+                            'status'=>true ,
                             'message'=>'Role Updated successfully',
                             'role'=>$role
                         ]);
@@ -238,11 +244,11 @@ class HomeController extends Controller
 
                 }
             } catch (\Throwable $th) {
-                 return response()->json(['success'=>false ,'errors'=>$th->getMessage()]);
+                 return response()->json(['status'=>false ,'errors'=>$th->getMessage()]);
             }
     }
 
-    public function destroyRole(Request $request)
+    public function roleDestroy(Request $request)
     {
         $role = Role::find($request->role_id);
         $permission = Permission::find($request->permission_id);
