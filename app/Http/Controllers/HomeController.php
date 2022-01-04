@@ -149,7 +149,7 @@ class HomeController extends Controller
     public function showRole()
     {
         // return 'role';
-        $showRole = Role::latest()->get();
+        $showRole = Role::with('permissions')->latest()->get();
         return response()->json($showRole);
     }
 
