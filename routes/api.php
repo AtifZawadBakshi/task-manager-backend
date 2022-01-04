@@ -82,7 +82,7 @@ Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin', 'middleware' =
     Route::get('/role-find/{id}', [HomeController::class, 'roleFind']);
     Route::post('/role-store', [HomeController::class, 'roleStore']);
     Route::get('/role-edit/{id}', [HomeController::class, 'roleEdit']);
-    Route::put('/role-update/{id}', [HomeController::class, 'roleUpdate']);
+    Route::put('/role-update', [HomeController::class, 'roleUpdate']);
     Route::delete('/role-destroy', [HomeController::class, 'roleDestroy']);
     //***Spatie Expra***//
     Route::post('/roleDelete', [HomeController::class, 'roleDelete']);

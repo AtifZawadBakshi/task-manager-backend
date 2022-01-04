@@ -216,9 +216,9 @@ class HomeController extends Controller
     }
 
 
-    public function roleUpdate(Request $request, $id)
+    public function roleUpdate(Request $request)
     {
-            $role= Role::find($id);
+            $role= Role::find($request->id);
 
             // return response()->json($request->permission);
 
