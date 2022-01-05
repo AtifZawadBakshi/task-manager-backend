@@ -173,6 +173,7 @@ class HomeController extends Controller
 
     public function roleStore(Request $request)
     {
+        // return explode(',', $request->permission_id);
         // return response()->json($request);
         // $role = Role::create([
         //     'name' => $request->name,
@@ -191,7 +192,7 @@ class HomeController extends Controller
                 ]);
                 // $roleHasPermission =
                 if ($role) {
-                    $role->givePermissionTo($request->permission_id);
+                    $role->givePermissionTo(explode(',', $request->permission_id));
                 }
                 return response()->json([
                     'status'=>true ,
