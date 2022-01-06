@@ -129,6 +129,12 @@ Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin', 'middleware' =
 
 });
 
+Route::group(['prefix' => 'v1/crm', 'namespace' => 'Api\crm', 'middleware' => 'checkAdmin'], function () {
+    //***CRM Api***//
+    Route::resource('issue', 'IssueController');
+    Route::resource('query', 'QueryController');
+    Route::resource('regulation', 'RegulationController');
+});
 
 
 
