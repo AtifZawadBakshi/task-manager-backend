@@ -17,7 +17,13 @@ class LocationController extends Controller
     public function index()
     {
         // $locations = Location::latest()->get();
-        $locations = Location::orderBy('id', 'DESC')->get();
+        //$locations = Location::orderBy('id', 'DESC')->get();
+        $locations = [
+            ['value' => 1, 'label'=> 'Banani'],
+            ['value' => 2, 'label'=> 'Khilkhet'],
+            ['value' => 3, 'label'=> 'Dhanmondi']
+        ];
+
         return response()->json($locations);
     }
 
@@ -146,7 +152,7 @@ class LocationController extends Controller
         }
     }
 
-    public function locationSearch($name) 
+    public function locationSearch($name)
     {
         $reservedSymbols = ['-', '+', '<', '>', '@', '(', ')', '~'];
         $searchTerm = str_replace($reservedSymbols, ' ', $name);
