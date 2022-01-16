@@ -111,6 +111,7 @@ Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin', 'middleware' =
     //***Location Api***//
     Route::resource('location', 'LocationController');
     Route::get('/location-search/{area}','LocationController@locationSearch');
+    Route::get('/location-data','LocationController@locationData');
 
     //***Parcel Api***//
     Route::resource('parcel', 'ParcelController');

@@ -66,21 +66,23 @@ class AvailableController extends Controller
     {
         $available = Available::with('warehouse','location')->where('id', $id)->first();
         $available = [
-            'value' => $available->location_id, 'label'=> $available->location->area
+            'location_id' => $available->location_id, 'location_area'=> $available->location->area,
+            'warehouse_id' => $available->warehouse_id,
+            'id' => $id
         ];
         return $available;
 
-        if($available == null){
-            return response()->json([
-                'status' => false,
-                'message' => 'Not Found!'
-            ]);
-        }else{
-            return response()->json([
-                'status' => true,
-                'data' => $available,
-            ]);
-        }
+        // if($available == null){
+        //     return response()->json([
+        //         'status' => false,
+        //         'message' => 'Not Found!'
+        //     ]);
+        // }else{
+        //     return response()->json([
+        //         'status' => true,
+        //         'data' => $available,
+        //     ]);
+        // }
     }
 
     /**
@@ -92,18 +94,18 @@ class AvailableController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'location_id' => 'required',
-            'warehouse_id' => 'required|unique:availables,warehouse_id,NULL,id,location_id,' . $request->location_id,
-        ],
-        [
-            'warehouse_id.required' => 'The warehouse id field is required.'
-        ]);
-        if ($validator->fails()) {
-            $data['status'] = false;
-            $data['errors'] = $validator->errors();
-            return response()->json($data, 422);
-        }
+        // $validator = Validator::make($request->all(), [
+        //     'location_id' => 'required',
+        //     'warehouse_id' => 'required|unique:availables,warehouse_id,NULL,id,location_id,' . $request->location_id,
+        // ],
+        // [
+        //     'warehouse_id.required' => 'The warehouse id field is required.'
+        // ]);
+        // if ($validator->fails()) {
+        //     $data['status'] = false;
+        //     $data['errors'] = $validator->errors();
+        //     return response()->json($data, 422);
+        // }
 
         $available = Available::where('id', $id)->first();
         if($available == null){

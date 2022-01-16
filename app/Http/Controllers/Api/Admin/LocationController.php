@@ -17,13 +17,20 @@ class LocationController extends Controller
     public function index()
     {
         // $locations = Location::latest()->get();
-        //$locations = Location::orderBy('id', 'DESC')->get();
-        $locations = [
-            ['value' => 1, 'label'=> 'Banani'],
-            ['value' => 2, 'label'=> 'Khilkhet'],
-            ['value' => 3, 'label'=> 'Dhanmondi']
-        ];
+        $locations = Location::orderBy('id', 'DESC')->paginate(10);
+        // $locations = [
+        //     ['value' => 1, 'label'=> 'Banani'],
+        //     ['value' => 2, 'label'=> 'Khilkhet'],
+        //     ['value' => 3, 'label'=> 'Dhanmondi']
+        // ];
 
+        return response()->json($locations);
+    }
+
+    public function locationData()
+    {
+        $locations = Location::select('id as value', 'area as label')->get();
+    
         return response()->json($locations);
     }
 
