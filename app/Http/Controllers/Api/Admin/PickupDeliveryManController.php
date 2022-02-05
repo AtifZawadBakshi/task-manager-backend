@@ -16,7 +16,7 @@ class PickupDeliveryManController extends Controller
      */
     public function index()
     {
-        $pickupDeliveryMans = PickupDeliveryMan::paginate(10);
+        $pickupDeliveryMans = PickupDeliveryMan::with('user', 'warehouse')->paginate(10);
         return response()->json($pickupDeliveryMans);
     }
 
