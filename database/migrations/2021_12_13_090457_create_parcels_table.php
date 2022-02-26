@@ -15,18 +15,20 @@ class CreateParcelsTable extends Migration
     {
         Schema::create('parcels', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->integer('available_id');
-            $table->string('order_no')->unique();
-            $table->integer('product_id')->nullable();
-            $table->integer('location_id');
-            $table->string('customer_name');
-            $table->string('customer_number');
-            $table->string('customer_email');
-            $table->string('customer_address');
-            $table->string('customer_zip_code');
-            $table->string('customer_city');
-            $table->boolean('status')->default(false);
+            $table->integer('merchant_id')->nullable();
+            $table->integer('available_id')->nullable();
+            $table->integer('pickup_location_id')->nullable();
+            $table->integer('delivery_location_id')->nullable();
+            $table->integer('pickup_warehouse_id')->nullable();
+            $table->integer('delivery_warehouse_id')->nullable();
+            $table->string('order_no')->unique()->nullable();
+            $table->string('customer_name')->nullable();
+            $table->string('customer_number')->nullable();
+            $table->string('customer_email')->nullable();
+            $table->string('customer_address')->nullable();
+            $table->string('customer_zip_code')->nullable();
+            $table->string('customer_city')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

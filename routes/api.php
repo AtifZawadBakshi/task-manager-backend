@@ -128,6 +128,8 @@ Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin', 'middleware' =
     Route::resource('merchant-user', 'MerchantUserController');
     Route::post('merchant-user-info', 'MerchantUserController@merchant_user_info');
 
+    //***PickupAssign Api***//
+    Route::resource('pickup-assign', 'PickupAssignController');
 });
 
 Route::group(['prefix' => 'v1/crm', 'namespace' => 'Api\crm', 'middleware' => 'checkAdmin'], function () {

@@ -31,19 +31,20 @@ class ParcelController extends Controller
      */
     public function store(Request $request)
     {
+        // return $request;
         $validator = Validator::make($request->all(), [
-            'merchant_id' => 'required',
-            'available_id' => 'required',
-            'pickup_location_id' => 'required',
-            'delivery_location_id' => 'required',
-            'pickup_warehouse_id' => 'required',
-            'delivery_warehouse_id' => 'required',
-            'order_no' => 'required',
-            'customer_name' => 'required',
-            'customer_number' => 'required',
-            'customer_email' => 'required',
-            'customer_address' => 'required',
-            'customer_zip_code' => 'required',
+            // 'merchant_id' => 'required',
+            // 'available_id' => 'required',
+            // 'pickup_location_id' => 'required',
+            // 'delivery_location_id' => 'required',
+            // 'pickup_warehouse_id' => 'required',
+            // 'delivery_warehouse_id' => 'required',
+            // 'order_no' => 'required',
+            // 'customer_name' => 'required',
+            // 'customer_number' => 'required',
+            // 'customer_email' => 'required',
+            // 'customer_address' => 'required',
+            // 'customer_zip_code' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -112,21 +113,41 @@ class ParcelController extends Controller
                 'message' => 'Not Found!'
             ]);
         }else{
-            $parcel->merchant_id = $request->merchant_id;
-            $parcel->available_id = $request->available_id ;
-            $parcel->pickup_location_id = $request->pickup_location_id ;
-            $parcel->delivery_location_id = $request->delivery_location_id ;
-            $parcel->pickup_warehouse_id = $request->pickup_warehouse_id ;
-            $parcel->delivery_warehouse_id = $request->delivery_warehouse_id ;
-            $parcel->order_no  = $request->order_no ;
-            $parcel->customer_name = $request->customer_name ;
-            $parcel->customer_number = $request->customer_number;
-            $parcel->customer_email = $request->customer_email ;
-            $parcel->customer_address = $request->customer_address;
-            $parcel->customer_zip_code = $request->customer_zip_code ;
-            $parcel->customer_city = $request->customer_city;
-            $parcel->status = $request->status ;
-            $parcel->update();
+            if($request->status != null && $request->order_no == null){
+                $parcel->status = $request->status ;
+                $parcel->update();
+            }else{
+                $parcel->merchant_id = $request->merchant_id;
+                $parcel->available_id = $request->available_id ;
+                $parcel->pickup_location_id = $request->pickup_location_id ;
+                $parcel->delivery_location_id = $request->delivery_location_id ;
+                $parcel->pickup_warehouse_id = $request->pickup_warehouse_id ;
+                $parcel->delivery_warehouse_id = $request->delivery_warehouse_id ;
+                $parcel->order_no  = $request->order_no ;
+                $parcel->customer_name = $request->customer_name ;
+                $parcel->customer_number = $request->customer_number;
+                $parcel->customer_email = $request->customer_email ;
+                $parcel->customer_address = $request->customer_address;
+                $parcel->customer_zip_code = $request->customer_zip_code;
+                $parcel->customer_city = $request->customer_city;
+                $parcel->status = $request->status ;
+                $parcel->update();
+            }
+            // $parcel->merchant_id = $request->merchant_id;
+            // $parcel->available_id = $request->available_id ;
+            // $parcel->pickup_location_id = $request->pickup_location_id ;
+            // $parcel->delivery_location_id = $request->delivery_location_id ;
+            // $parcel->pickup_warehouse_id = $request->pickup_warehouse_id ;
+            // $parcel->delivery_warehouse_id = $request->delivery_warehouse_id ;
+            // $parcel->order_no  = $request->order_no ;
+            // $parcel->customer_name = $request->customer_name ;
+            // $parcel->customer_number = $request->customer_number;
+            // $parcel->customer_email = $request->customer_email ;
+            // $parcel->customer_address = $request->customer_address;
+            // $parcel->customer_zip_code = $request->customer_zip_code;
+            // $parcel->customer_city = $request->customer_city;
+            // $parcel->status = $request->status ;
+            // $parcel->update();
             return response()->json([
                 'status' => true,
                 'data' => $parcel,

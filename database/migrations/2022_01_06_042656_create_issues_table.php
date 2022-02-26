@@ -15,7 +15,7 @@ class CreateIssuesTable extends Migration
     {
         Schema::create('issues', function (Blueprint $table) {
             $table->id();
-            $table->integer('order_id')->nullable();
+            $table->string('order_id')->nullable();
             $table->string('medium')->nullable();
             $table->timestamp('date_of_issue')->nullable();
             $table->string('product_type')->nullable();
