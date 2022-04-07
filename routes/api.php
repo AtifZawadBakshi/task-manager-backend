@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\Admin\ParcelController;
 use App\Http\Controllers\Api\Admin\ProductController;
 use App\Http\Controllers\Api\Admin\MerchantController;
 use App\Http\Controllers\Api\Admin\MerchantUserController;
+use App\Http\Controllers\Api\meet\TaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -137,6 +138,18 @@ Route::group(['prefix' => 'v1/crm', 'namespace' => 'Api\crm', 'middleware' => 'c
     Route::resource('issue', 'IssueController');
     Route::resource('query', 'QueryController');
     Route::resource('regulation', 'RegulationController');
+});
+
+Route::group(['prefix' => 'v1/meet', 'namespace' => 'Api\meet', 'middleware' => 'checkAdmin'], function () {
+    //***CRM Api***//
+    // return 'ok';
+    Route::resource('task', 'TestController');
+    Route::resource('sub-task', 'SubTestController');
+    Route::post('sub-task/status/{id}', 'SubTestController@status');
+    Route::post('task/date', 'TestController@date');
+    // Route::get('date', 'TestController@show');
+    // Route::resource('regulation', 'RegulationController');
+    // Route::get('/location-search/{area}','LocationController@locationSearch');
 });
 
 
