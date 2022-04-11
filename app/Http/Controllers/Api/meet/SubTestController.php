@@ -107,7 +107,7 @@ class SubTestController extends Controller
             $task->status = 'In Progress';
             $task->update();
         }else{
-            $task = task::where('id', $stask->task_id)->first();
+            $task = taskeve::where('id', $stask->task_id)->first();
             $task->status = 'Not Started';
             $task->update();
         }

@@ -61,6 +61,7 @@ Route::group(['prefix' => 'v1/admin', 'namespace' => 'Api\Admin'], function () {
     //***Admin Login***//
     Route::post('/register', [AdminAuthController::class, 'register']);
     Route::post('/login', [AdminAuthController::class, 'login']);
+    Route::post('/change-password', [AdminAuthController::class, 'passwordChange']);
     // Route::get('/userList', [AdminAuthController::class, 'userList']);
 });
 
@@ -147,6 +148,7 @@ Route::group(['prefix' => 'v1/meet', 'namespace' => 'Api\meet', 'middleware' => 
     Route::resource('sub-task', 'SubTestController');
     Route::post('sub-task/status/{id}', 'SubTestController@status');
     Route::post('task/date', 'TestController@date');
+    Route::get('virsion', 'TestController@virsion');
     // Route::get('date', 'TestController@show');
     // Route::resource('regulation', 'RegulationController');
     // Route::get('/location-search/{area}','LocationController@locationSearch');

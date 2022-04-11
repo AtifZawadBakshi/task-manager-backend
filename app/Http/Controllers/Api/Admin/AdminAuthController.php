@@ -17,7 +17,7 @@ class AdminAuthController extends Controller
     // use GeneralTrait;
     public function __construct()
     {
-       $this->middleware('auth:admin-api', ['except' => ['login', 'register','logout','userList']]);
+       $this->middleware('auth:admin-api', ['except' => ['login', 'register', 'passwordChange', 'logout','userList']]);
     }
 
     public function register(Request $request)
@@ -79,6 +79,26 @@ class AdminAuthController extends Controller
             ], 401);
         }
         $user = auth('admin-api')->user();
+        return $this->createNewToken($token, $user);
+    }
+
+    public function passwordChange(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'password' => 'required|min:6|max:100'
+        ]);
+
+        if ($validator->fails()) {
+            $data['status'] = false;
+            $data['error'] = $validator->errors();
+            return response()->json($data, 422);
+        }
+        $user = Admin::where('email', $request->email)->first();
+        $user->password = Hash::make($request->password);
+        $user->update();
+
+        $token = auth('admin-api')->login($user);
+
         return $this->createNewToken($token, $user);
     }
 

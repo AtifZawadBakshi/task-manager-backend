@@ -84,4 +84,10 @@ class TestController extends Controller
         $task = task::with('subtask')->where('time', $request->date)->get();
         return response()->json(['data'=>$task, 'success' => 200]);
     }
+
+    public function virsion()
+    {
+        $virsion[] = '1';
+        return response()->json(['data'=>$virsion, 'success' => 200]);
+    }
 }
